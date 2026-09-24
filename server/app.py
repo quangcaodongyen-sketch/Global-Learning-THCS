@@ -128,6 +128,13 @@ async def serve_classroom_page():
         return FileResponse(classroom_path)
     return FileResponse(os.path.join(WEB_DIR, "index.html"))
 
+@app.get("/phu-huynh", response_class=HTMLResponse)
+async def serve_parents_page():
+    parents_path = os.path.join(WEB_DIR, "phu-huynh.html")
+    if os.path.exists(parents_path):
+        return FileResponse(parents_path)
+    return FileResponse(os.path.join(WEB_DIR, "index.html"))
+
 
 # =========================================================================
 # API ROUTES
