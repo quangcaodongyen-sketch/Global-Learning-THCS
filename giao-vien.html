@@ -20,7 +20,8 @@
         </div>
       </a>
 
-      <div style="display: flex; align-items: center; gap: 0.6rem;">
+      <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+        <a href="/phong-hoc" class="btn btn-sm" style="background: linear-gradient(135deg, #f59e0b, #ec4899); color: #fff; font-weight: 800; border: none; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);">🎓 Vào Phòng Giảng Dạy TV</a>
         <a href="/luyen-noi" class="btn btn-secondary btn-sm">🎙️ Luyện Nói AI</a>
         <a href="/lam-bai" class="btn btn-cyan btn-sm">✍️ Thử Làm Bài</a>
         <a href="/" class="btn btn-primary btn-sm">🏠 Trang Chủ</a>
@@ -30,8 +31,29 @@
 
   <main class="main-layout">
 
+    <!-- HERO BANNER: PHÒNG GIẢNG DẠY & LỚP HỌC TRỰC TUYẾN -->
+    <div style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98)); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: var(--radius-xl); padding: 1.5rem 2rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+          <span class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-weight: 800; border-radius: 999px; padding: 0.2rem 0.75rem; font-size: 0.8rem;">🚀 CÔNG CỤ DẠY HỌC THÔNG MINH</span>
+        </div>
+        <h3 style="font-family: var(--font-heading); font-size: 1.45rem; color: #fff; margin-bottom: 0.35rem;">
+          Lớp Học Thông Minh & Phòng Giảng Dạy Trực Tiếp (Chiếu Tivi / Máy Chiếu)
+        </h3>
+        <p style="color: var(--text-muted); font-size: 0.92rem; margin: 0; max-width: 800px;">
+          Dành cho Thầy giảng dạy trực tiếp: Tích hợp <b>Vòng quay ngẫu nhiên gọi học sinh 🎡</b>, <b>Luyện nói & Chấm điểm Web Speech AI 🎙️</b>, <b>Điểm danh 1-click 📋</b>, và <b>Chiếu mã QR giao bài kiểm tra tại lớp 📱</b>.
+        </p>
+      </div>
+      <a href="/phong-hoc" class="btn btn-primary btn-lg" style="background: linear-gradient(135deg, #38bdf8, #6366f1); border: none; font-weight: 800; box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); text-decoration: none; white-space: nowrap;">
+        <span>🎓</span> Vào Phòng Giảng Dạy Ngay ➔
+      </a>
+    </div>
+
     <!-- TEACHER NAV TABS -->
     <div style="display: flex; gap: 0.75rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 1rem; flex-wrap: wrap;">
+      <a href="/phong-hoc" class="btn" style="background: linear-gradient(135deg, #f59e0b, #ec4899); color: #fff; font-weight: 800; border: none; text-decoration: none; display: flex; align-items: center; gap: 0.4rem;">
+        <span>🎓</span> Phòng Dạy Học Tương Tác (Chiếu TV) ➔
+      </a>
       <button class="btn btn-primary teacher-nav-btn active" data-target="tabCreator" onclick="switchTeacherTab('tabCreator')">
         <span>📝</span> Ra Đề Các Loại (Exam Studio)
       </button>

@@ -32,44 +32,25 @@ document.addEventListener('DOMContentLoaded', () => {
   checkSavedStudentLogin();
 });
 
-// 1. TẢI ĐỀ THI (Hỗ trợ cả API Server và Vercel Client Database)
+// 1. TẢI ĐỀ THI
 async function loadExam(examId) {
   try {
     const res = await fetch(`/api/exam/${encodeURIComponent(examId)}?for_student=true`);
-    if (res.ok) {
-      currentExam = await res.json();
-      renderExamUI(currentExam);
-      return;
-    }
-  } catch (err) {}
-
-  // Fallback từ cơ sở dữ liệu nhúng sẵn trên Vercel
-  if (window.GLOBAL_EXAMS_DB) {
-    const found = window.GLOBAL_EXAMS_DB.find(e => e.id === examId);
-    if (found) {
-      currentExam = JSON.parse(JSON.stringify(found));
-      renderExamUI(currentExam);
-      return;
-    }
+    if (!res.ok) throw new Error('Không thể tải bài thi');
+    currentExam = await res.json();
+    renderExamUI(currentExam);
+  } catch (err) {
+    alert('Lỗi: ' + err.message);
   }
-  alert('Không thể tải bài thi với mã: ' + examId);
 }
 
 // 2. HIỂN THỊ CHỌN ĐỀ NẾU CHƯA CÓ ID
 async function showExamPicker() {
-  let exams = [];
   try {
     const res = await fetch('/api/exams');
-    if (res.ok) exams = await res.json();
-  } catch (err) {}
-
-  if ((!exams || exams.length === 0) && window.GLOBAL_EXAMS_DB) {
-    exams = window.GLOBAL_EXAMS_DB;
-  }
-
-  const container = document.getElementById('examContentArea');
-  if (!container) return;
-
+    const exams = await res.json();
+    const container = document.getElementById('examContentArea');
+    if (!container) return;
 
     let html = `
       <div style="max-width: 900px; margin: 0 auto; padding: 2rem 0;">
@@ -483,80 +464,13 @@ async function submitExam(isAuto = false) {
       body: JSON.stringify(payload)
     });
 
-    if (res.ok) {
-      const data = await res.json();
-      showResultModal(data.result);
-      return;
-    }
+    if (!res.ok) throw new Error('Không thể nộp bài');
+    const data = await res.json();
+    showResultModal(data.result);
   } catch (err) {
-    console.warn('API submit unavailable, grading client-side on Vercel:', err);
+    alert('Lỗi nộp bài: ' + err.message);
   }
-
-  // Chấm điểm Client-Side dự phòng (Dành cho Vercel tĩnh hoặc khi mất mạng)
-  const clientResult = gradeClientSide(currentExam, userAnswers, studentInfo);
-  showResultModal(clientResult);
 }
-
-function gradeClientSide(exam, answers, student) {
-  let totalItems = 0;
-  let correctItems = 0;
-  const details = [];
-
-  (exam.questions || []).forEach(q => {
-    totalItems++;
-    const sAns = (answers[q.id] || '').trim();
-    const cAns = (q.correct_answer || '').trim();
-    const isCorrect = sAns.toLowerCase() === cAns.toLowerCase();
-    if (isCorrect) correctItems++;
-
-    details.push({
-      question_id: q.id,
-      type: q.type,
-      student_answer: sAns,
-      correct_answer: cAns,
-      is_correct: isCorrect,
-      explanation: q.explanation || ''
-    });
-  });
-
-  const rawScore = totalItems > 0 ? (correctItems / totalItems) * 10 : 0;
-  const finalScore = Math.round(rawScore * 10) / 10;
-
-  let badge = 'Cố Gắng Lên 💪';
-  let feedback = 'Em cần ôn tập thêm từ vựng và ngữ pháp. Hãy làm lại để đạt điểm cao hơn nhé!';
-  if (finalScore >= 9.0) {
-    badge = 'Xuất Sắc 🏆';
-    feedback = 'Em làm bài rất xuất sắc! Nắm vững toàn bộ kiến thức trọng tâm.';
-  } else if (finalScore >= 8.0) {
-    badge = 'Giỏi 🌟';
-    feedback = 'Rất tốt! Em đã hoàn thành bài thi với kết quả rất cao.';
-  } else if (finalScore >= 6.5) {
-    badge = 'Khá 👍';
-    feedback = 'Em làm bài khá tốt. Hãy chú ý các câu sai để rút kinh nghiệm nhé.';
-  } else if (finalScore >= 5.0) {
-    badge = 'Trung Bình 📚';
-    feedback = 'Em đã đạt yêu cầu cơ bản. Hãy cố gắng luyện tập thêm!';
-  }
-
-  // Tích lũy XP
-  try {
-    let xp = parseInt(localStorage.getItem('gs_xp') || '120', 10);
-    xp += Math.round(finalScore * 10);
-    localStorage.setItem('gs_xp', xp.toString());
-  } catch (e) {}
-
-  return {
-    student_name: student.name,
-    student_class: student.class_name,
-    score: finalScore,
-    correct_items: correctItems,
-    total_items: totalItems,
-    badge: badge,
-    feedback: feedback,
-    details: details
-  };
-}
-
 
 // 11. BẢNG KẾT QUẢ ĐIỂM SỐ & GIẢI THÍCH CHI TIẾT
 function showResultModal(result) {

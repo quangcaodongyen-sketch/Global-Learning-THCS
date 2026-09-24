@@ -119,6 +119,14 @@ async def serve_flashcards_page():
         return FileResponse(flashcards_path)
     return FileResponse(os.path.join(WEB_DIR, "index.html"))
 
+@app.get("/phong-hoc", response_class=HTMLResponse)
+@app.get("/classroom", response_class=HTMLResponse)
+async def serve_classroom_page():
+    classroom_path = os.path.join(WEB_DIR, "classroom.html")
+    if os.path.exists(classroom_path):
+        return FileResponse(classroom_path)
+    return FileResponse(os.path.join(WEB_DIR, "index.html"))
+
 
 # =========================================================================
 # API ROUTES

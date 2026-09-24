@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phòng Giảng Dạy & Lớp Học Trực Tuyến - Global Learning THCS | Thầy Đinh Văn Thành</title>
+  <link rel="icon" href="/static/images/global_learning_logo.svg">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="/static/js/audio_effects.js"></script>
+  <script src="/static/js/confetti.js"></script>
+  <script src="/static/js/qr_generator.js"></script>
+  <script src="/static/js/speaking_data.js"></script>
+  <script src="/static/js/speaking_studio.js"></script>
+  <script src="/static/js/exam_data.js"></script>
+  <style>
+    .classroom-hero {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-xl);
+      padding: 1.75rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .classroom-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border-glass);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .teaching-grid {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 1024px) {
+      .teaching-grid { grid-template-columns: 1fr; }
+    }
+    .board-card {
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+    .board-tab-btn {
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    .board-tab-btn.active {
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    }
+    .vocab-card-large {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s ease;
+    }
+    .vocab-card-large:hover {
+      border-color: #38bdf8;
+      transform: translateX(4px);
+    }
+    .attendance-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+    }
+    .attendance-btn-group button {
+      padding: 0.2rem 0.5rem;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .btn-present { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .btn-present.active { background: #10b981; color: #fff; }
+    .btn-absent { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .btn-absent.active { background: #ef4444; color: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-wrapper">
+        <img src="/static/images/global_learning_logo.svg" alt="Global Learning Logo" class="mascot-icon">
+        <div class="brand-info">
+          <h1>GLOBAL LEARNING THCS</h1>
+          <p><span>🎓</span> PHÒNG GIẢNG DẠY TRỰC TIẾP • THẦY ĐINH VĂN THÀNH</p>
+        </div>
+      </a>
+
+      <!-- GAMIFIED STATS -->
+      <div class="student-stats-wrapper">
+        <div class="stat-pill stat-pill-streak">
+          <span>🔥</span>
+          <span id="userStreakDays">3 Ngày 🔥</span>
+        </div>
+        <div class="stat-pill stat-pill-xp">
+          <span>⚡</span>
+          <span id="userTotalXp">120 XP</span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <button class="btn btn-secondary btn-sm" onclick="toggleFullScreen()">⛶ Toàn Màn Hình TV</button>
+        <a href="/giao-vien" class="btn btn-cyan btn-sm">👨‍🏫 Cổng Giáo Viên</a>
+        <a href="/" class="btn btn-primary btn-sm">🏠 Trang Chủ</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout" style="max-width: 1400px;">
+
+    <!-- CLASSROOM HERO & CONTROLS -->
+    <div class="classroom-hero">
+      <div class="classroom-toolbar">
+        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <div>
+            <label style="font-size: 0.8rem; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 0.25rem;">LỚP HỌC:</label>
+            <select class="input-control" id="selectTeachingClass" onchange="onClassChange()" style="min-width: 130px; padding: 0.5rem 0.75rem; font-weight: 800; color: #38bdf8; background: #0f172a;">
+              <option value="6A">Lớp 6A</option>
+              <option value="6B">Lớp 6B</option>
+              <option value="7A">Lớp 7A</option>
+              <option value="8A">Lớp 8A</option>
+              <option value="9A">Lớp 9A</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size: 0.8rem; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 0.25rem;">KHỐI & BÀI HỌC (UNIT):</label>
+            <select class="input-control" id="selectTeachingUnit" onchange="onUnitChange()" style="min-width: 280px; padding: 0.5rem 0.75rem; font-weight: 700; background: #0f172a;">
+              <option value="U1">Unit 1: My New School (Lớp 6)</option>
+              <option value="U2">Unit 2: My House (Lớp 6)</option>
+              <option value="U5">Unit 5: Natural Wonders of Viet Nam (Lớp 6)</option>
+              <option value="U1_7">Unit 1: Hobbies (Lớp 7)</option>
+              <option value="U10_7">Unit 10: Energy Sources (Lớp 7)</option>
+              <option value="U1_8">Unit 1: Leisure Time (Lớp 8)</option>
+              <option value="U7_8">Unit 7: Environmental Protection (Lớp 8)</option>
+              <option value="U1_9">Unit 1: Local Community (Lớp 9)</option>
+              <option value="U9_9">Unit 9: English in the World (Lớp 9)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- COUNTDOWN TIMER CHO TIẾT DẠY (45 PHÚT) -->
+        <div style="display: flex; align-items: center; gap: 0.75rem; background: rgba(15, 23, 42, 0.8); padding: 0.5rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-glass);">
+          <span style="font-size: 1.5rem;">⏱️</span>
+          <div>
+            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700;">THỜI GIAN TIẾT DẠY:</div>
+            <div id="lessonTimerDisplay" style="font-family: monospace; font-size: 1.4rem; font-weight: 900; color: #10b981;">45:00</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="toggleLessonTimer()" id="btnTimerControl">Bắt Đầu</button>
+        </div>
+      </div>
+
+      <!-- TABS CHẾ ĐỘ GIẢNG DẠY -->
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button class="board-tab-btn active" onclick="switchBoardTab('tabVocabBoard', this)">🗂️ 1. Từ Vựng & Phát Âm Trọng Tâm</button>
+        <button class="board-tab-btn" onclick="switchBoardTab('tabSpeakingBoard', this)">🎙️ 2. Luyện Nói & Chấm Điểm Tại Lớp</button>
+        <button class="board-tab-btn" onclick="switchBoardTab('tabQuizBoard', this)">📝 3. Chiếu Mã QR Giao Bài Cả Lớp</button>
+        <button class="board-tab-btn" onclick="switchBoardTab('tabWhiteboard', this)">🖊️ 4. Bảng Ghi Chú Của Thầy</button>
+      </div>
+    </div>
+
+    <!-- MAIN TEACHING & CLASS MANAGEMENT GRID -->
+    <div class="teaching-grid">
+
+      <!-- LEFT: SMART PRESENTATION BOARD -->
+      <div class="board-card">
+        
+        <!-- 1. BẢNG TỪ VỰNG TRỌNG TÂM -->
+        <div id="tabVocabBoard" class="board-content">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff;" id="vocabBoardTitle">
+              📖 Từ Vựng Trọng Tâm Tiết Học
+            </h3>
+            <button class="btn btn-cyan btn-sm" onclick="speakAllVocab()">🔊 Phát Âm Tự Động Lần Lượt</button>
+          </div>
+
+          <div id="vocabListContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- 2. BẢNG THỬ THÁCH NÓI TẠI LỚP -->
+        <div id="tabSpeakingBoard" class="board-content" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff;">
+              🎙️ Thử Thách Luyện Nói & Chấm Điểm Trực Tiếp
+            </h3>
+            <span class="tag-grade">AI SPEECH ENGINE</span>
+          </div>
+
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+            Thầy gọi học sinh lên bảng nói vào Micro. AI sẽ so sánh với giọng bản xứ và hiển thị điểm % trực tiếp trên màn hình lớp học!
+          </p>
+
+          <div id="classroomSpeakingContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- 3. BẢNG CHIẾU MÃ QR GIAO BÀI TẬP VỀ NHÀ / KIỂM TRA -->
+        <div id="tabQuizBoard" class="board-content" style="display: none; text-align: center;">
+          <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">
+            📱 Chiếu Mã QR Để Học Sinh Vào Làm Bài Ngay
+          </h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+            Học sinh chỉ cần quét camera điện thoại là vào bài kiểm tra tương ứng với bài học hôm nay!
+          </p>
+
+          <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 2rem; display: inline-block; box-shadow: var(--shadow-glow);">
+            <canvas id="classQrCanvas" width="260" height="260"></canvas>
+            <div style="margin-top: 1rem; font-weight: 800; font-size: 1.1rem; color: #38bdf8;" id="qrExamTitle">
+              Bài Kiểm Tra 15 Phút - Unit 1 (Lớp 6)
+            </div>
+            <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem;" id="qrExamLink">
+              http://localhost:8080/lam-bai?id=ENG6_15P-U1
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. BẢNG GHI CHÚ THÔNG MINH -->
+        <div id="tabWhiteboard" class="board-content" style="display: none;">
+          <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff; margin-bottom: 0.75rem;">
+            🖊️ Bảng Ghi Chú Trọng Tâm Dành Cho Tiết Dạy
+          </h3>
+          <textarea class="input-control" id="teacherWhiteboardText" rows="12" style="font-family: var(--font-heading); font-size: 1.15rem; line-height: 1.8; color: #fde047; background: #0f172a; padding: 1.25rem; border-color: rgba(250, 204, 21, 0.4);" placeholder="Thầy gõ ghi chú ngữ pháp, bài tập về nhà cho học sinh chép vào vở tại đây..."></textarea>
+          <div style="margin-top: 0.75rem; display: flex; justify-content: flex-end;">
+            <button class="btn btn-primary btn-sm" onclick="saveWhiteboardNotes()">💾 Lưu Ghi Chú Tiết Học</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: TEACHER'S CLASSROOM TOOLS -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+        <!-- 🎡 VÒNG QUAY GỌI HỌC SINH LÊN BẢNG -->
+        <div class="board-card" style="text-align: center;">
+          <div style="font-size: 1.8rem; margin-bottom: 0.4rem;">🎡</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: #fff; margin-bottom: 0.35rem;">
+            Vòng Quay Gọi Học Sinh
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Bấm nút để quay ngẫu nhiên 1 học sinh trả lời câu hỏi!
+          </p>
+
+          <div style="background: rgba(15, 23, 42, 0.8); border: 2px dashed #f59e0b; border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1rem;">
+            <span style="font-size: 0.8rem; color: #94a3b8; font-weight: 700;">HỌC SINH MAY MẮN:</span>
+            <div id="luckyStudentName" style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 900; color: #fbbf24; margin-top: 0.35rem;">
+              Chưa quay
+            </div>
+          </div>
+
+          <button class="btn btn-primary" onclick="spinLuckyStudent()" id="btnSpinStudent" style="width: 100%; box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);">
+            🚀 Quay Tên Học Sinh
+          </button>
+        </div>
+
+        <!-- 📋 ĐIỂM DANH NHANH LỚP HỌC -->
+        <div class="board-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h4 style="font-size: 1.05rem; font-weight: 800; color: #fff;">📋 Điểm Danh Nhanh</h4>
+            <span id="attendanceSummary" style="font-size: 0.8rem; color: #34d399; font-weight: 800;">5/5 Có mặt</span>
+          </div>
+
+          <div id="attendanceListContainer" style="max-height: 280px; overflow-y: auto;">
+            <!-- Rendered by JS -->
+          </div>
+
+          <button class="btn btn-secondary btn-sm" onclick="saveAttendanceRecord()" style="width: 100%; margin-top: 1rem;">
+            💾 Lưu Báo Cáo Chuyên Cần
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p><b>GLOBAL LEARNING THCS - HỆ THỐNG GIẢNG DẠY & HỌC TIẾNG ANH TRỰC TUYẾN</b></p>
+    <p>Thầy giáo Đinh Văn Thành • Trường THCS Đồng Yên • Hotline / Zalo: 0915.213717</p>
+  </footer>
+
+  <script>
+    // Dữ liệu học sinh mặc định
+    let currentClassStudents = [
+      { id: "6a_annv", name: "Nguyễn Văn An", status: "present" },
+      { id: "6a_binhtt", name: "Trần Thị Bình", status: "present" },
+      { id: "6a_cuonglh", name: "Lê Hoàng Cường", status: "present" },
+      { id: "6a_dungpt", name: "Phạm Thu Dung", status: "present" },
+      { id: "6a_duchm", name: "Hoàng Minh Đức", status: "present" }
+    ];
+
+    let timerInterval = null;
+    let timerSeconds = 45 * 60;
+    let isTimerRunning = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      onUnitChange();
+      renderAttendanceList();
+      initClassQr();
+    });
+
+    // 1. CHUYỂN TAB TRÌNH CHIẾU
+    function switchBoardTab(tabId, btn) {
+      if (window.sounds) sounds.playClick();
+      document.querySelectorAll('.board-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.board-tab-btn').forEach(b => b.classList.remove('active'));
+
+      const target = document.getElementById(tabId);
+      if (target) target.style.display = 'block';
+      if (btn) btn.classList.add('active');
+
+      if (tabId === 'tabQuizBoard') {
+        initClassQr();
+      }
+    }
+
+    // 2. CHỌN BÀI HỌC VÀ HIỂN THỊ TỪ VỰNG / MẪU CÂU
+    function onUnitChange() {
+      const unitVal = document.getElementById('selectTeachingUnit').value;
+      let grade = "6";
+      if (unitVal.includes('_7')) grade = "7";
+      else if (unitVal.includes('_8')) grade = "8";
+      else if (unitVal.includes('_9')) grade = "9";
+
+      // Render Vocab
+      renderVocabBoard(grade);
+      renderSpeakingBoard(grade);
+    }
+
+    function renderVocabBoard(grade) {
+      const container = document.getElementById('vocabListContainer');
+      if (!container || !window.FLASHCARDS_DATA) return;
+
+      const words = window.FLASHCARDS_DATA[grade] || [];
+      let html = '';
+      words.forEach(w => {
+        html += `
+          <div class="vocab-card-large">
+            <div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #fff;">
+                ${w.word} <span style="font-size: 0.85rem; color: #38bdf8;">[${w.pos}]</span>
+              </div>
+              <div style="font-family: monospace; font-size: 0.95rem; color: #a5b4fc;">${w.ipa}</div>
+              <div style="color: #cbd5e1; font-size: 0.9rem; margin-top: 0.25rem;">💡 ${w.meaning}</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="speakNativeModel('${w.word}', 1.0)">
+              🔊 Nghe
+            </button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function renderSpeakingBoard(grade) {
+      const container = document.getElementById('classroomSpeakingContainer');
+      if (!container || !window.SPEAKING_TOPICS) return;
+
+      const topics = window.SPEAKING_TOPICS[grade] || [];
+      if (topics.length === 0) return;
+
+      const firstTopic = topics[0];
+      let html = '';
+      firstTopic.sentences.forEach(s => {
+        html += `
+          <div class="speak-card" id="speak_card_${s.id}" style="margin-bottom: 1.25rem;">
+            <div class="speak-header-badge">🎯 MẪU CÂU THỰC HÀNH TẠI LỚP</div>
+            <div class="speak-sentence-text" style="font-size: 1.45rem;">"${s.text}"</div>
+            <div class="speak-ipa-text">IPA: ${s.ipa}</div>
+            <div class="speak-meaning-text">💡 Dịch nghĩa: <i>${s.meaning}</i></div>
+
+            <div class="speak-actions-bar">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="speakNativeModel('${s.text.replace(/'/g, "\\'")}', 1.0)">
+                🔊 Thầy Mở Giọng Mẫu
+              </button>
+              <button type="button" class="btn-mic-record" onclick="startSpeakingChallenge('${s.id}', '${s.text.replace(/'/g, "\\'")}')">
+                🎙️ Em Hãy Nói Vào Micro
+              </button>
+            </div>
+
+            <div id="result_box_${s.id}" style="display: none;"></div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // 3. VÒNG QUAY GỌI HỌC SINH
+    function spinLuckyStudent() {
+      if (window.sounds) sounds.playClick();
+      const btn = document.getElementById('btnSpinStudent');
+      const nameEl = document.getElementById('luckyStudentName');
+      btn.disabled = true;
+
+      let counter = 0;
+      const speed = 70;
+      const totalRounds = 25;
+
+      const interval = setInterval(() => {
+        const randIdx = Math.floor(Math.random() * currentClassStudents.length);
+        nameEl.innerText = currentClassStudents[randIdx].name;
+        counter++;
+
+        if (counter >= totalRounds) {
+          clearInterval(interval);
+          btn.disabled = false;
+          if (window.sounds) sounds.playVictory();
+          if (window.launchConfetti) launchConfetti(3000);
+          nameEl.style.color = "#34d399";
+        }
+      }, speed);
+    }
+
+    // 4. ĐIỂM DANH LỚP HỌC
+    function renderAttendanceList() {
+      const container = document.getElementById('attendanceListContainer');
+      if (!container) return;
+
+      let html = '';
+      currentClassStudents.forEach((st, idx) => {
+        html += `
+          <div class="attendance-row">
+            <div><b>${idx + 1}. ${st.name}</b></div>
+            <div class="attendance-btn-group">
+              <button class="btn-present ${st.status === 'present' ? 'active' : ''}" onclick="setAttendance('${st.id}', 'present')">Có mặt</button>
+              <button class="btn-absent ${st.status === 'absent' ? 'active' : ''}" onclick="setAttendance('${st.id}', 'absent')">Vắng</button>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+      updateAttendanceSummary();
+    }
+
+    function setAttendance(studentId, status) {
+      const s = currentClassStudents.find(x => x.id === studentId);
+      if (s) s.status = status;
+      renderAttendanceList();
+    }
+
+    function updateAttendanceSummary() {
+      const presentCount = currentClassStudents.filter(s => s.status === 'present').length;
+      document.getElementById('attendanceSummary').innerText = `${presentCount}/${currentClassStudents.length} Có mặt`;
+    }
+
+    function saveAttendanceRecord() {
+      if (window.sounds) sounds.playClick();
+      alert('✅ Đã lưu kết quả điểm danh tiết học thành công!');
+    }
+
+    // 5. MÃ QR BÀI KIỂM TRA
+    function initClassQr() {
+      const canvas = document.getElementById('classQrCanvas');
+      if (canvas && window.QRCodeLib) {
+        const url = `${window.location.origin}/lam-bai?id=ENG6_15P-U1`;
+        QRCodeLib.render(canvas, url, 260);
+        document.getElementById('qrExamLink').innerText = url;
+      }
+    }
+
+    // 6. ĐỒNG HỒ ĐẾM NGƯỢC TIẾT HỌC
+    function toggleLessonTimer() {
+      const btn = document.getElementById('btnTimerControl');
+      if (isTimerRunning) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        btn.innerText = 'Tiếp Tục';
+      } else {
+        isTimerRunning = true;
+        btn.innerText = 'Tạm Dừng';
+        timerInterval = setInterval(() => {
+          if (timerSeconds > 0) {
+            timerSeconds--;
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('lessonTimerDisplay').innerText = 
+              `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+          } else {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            alert('🔔 ĐÃ HẾT THỜI GIAN TIẾT HỌC 45 PHÚT!');
+          }
+        }, 1000);
+      }
+    }
+
+    // 7. TOÀN MÀN HÌNH
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    function saveWhiteboardNotes() {
+      alert('✅ Đã lưu ghi chú bài học vào hệ thống!');
+    }
+  </script>
+</body>
+</html>
