@@ -1,31 +1,5 @@
 {
   "version": 2,
-  "outputDirectory": "dist",
   "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/luyen-noi",
-      "destination": "/speaking.html"
-    },
-    {
-      "source": "/the-tu-vung",
-      "destination": "/flashcards.html"
-    },
-    {
-      "source": "/lam-bai",
-      "destination": "/student.html"
-    },
-    {
-      "source": "/giao-vien",
-      "destination": "/teacher.html"
-    },
-    {
-      "source": "/tro-choi",
-      "destination": "/fun_games.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/$1"
-    }
-  ]
+  "trailingSlash": false
 }

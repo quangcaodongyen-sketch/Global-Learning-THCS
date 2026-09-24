@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Quản Trị Giáo Viên - Ra Đề & Bảng Điểm Tiếng Anh THCS</title>
+  <link rel="icon" href="/assets/app_logo.ico">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-wrapper">
+        <img src="/static/images/global_learning_logo.svg" alt="Global Learning Logo" class="mascot-icon">
+        <div class="brand-info">
+          <h1>GLOBAL LEARNING THCS</h1>
+          <p><span>👨‍🏫</span> CỔNG QUẢN TRỊ GIÁO VIÊN • THẦY ĐINH VĂN THÀNH</p>
+        </div>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <a href="/luyen-noi" class="btn btn-secondary btn-sm">🎙️ Luyện Nói AI</a>
+        <a href="/lam-bai" class="btn btn-cyan btn-sm">✍️ Thử Làm Bài</a>
+        <a href="/" class="btn btn-primary btn-sm">🏠 Trang Chủ</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+
+    <!-- TEACHER NAV TABS -->
+    <div style="display: flex; gap: 0.75rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 1rem; flex-wrap: wrap;">
+      <button class="btn btn-primary teacher-nav-btn active" data-target="tabCreator" onclick="switchTeacherTab('tabCreator')">
+        <span>📝</span> Ra Đề Các Loại (Exam Studio)
+      </button>
+      <button class="btn btn-secondary teacher-nav-btn" data-target="tabStudents" onclick="switchTeacherTab('tabStudents')">
+        <span>👥</span> Tạo Tài Khoản Học Sinh
+      </button>
+      <button class="btn btn-secondary teacher-nav-btn" data-target="tabGradebook" onclick="switchTeacherTab('tabGradebook')">
+        <span>📈</span> Sổ Điểm Lớp Học & Đánh Giá Điểm
+      </button>
+      <button class="btn btn-secondary teacher-nav-btn" data-target="tabSubmissions" onclick="switchTeacherTab('tabSubmissions')">
+        <span>📊</span> Link Nhận Bài & Bảng Điểm Live
+      </button>
+      <button class="btn btn-secondary teacher-nav-btn" data-target="tabCurriculum" onclick="switchTeacherTab('tabCurriculum')">
+        <span>📖</span> Lộ Trình 105 Tiết (Chuẩn Kien)
+      </button>
+      <button class="btn btn-secondary teacher-nav-btn" data-target="tabExamsList" onclick="switchTeacherTab('tabExamsList')">
+        <span>📚</span> Kho Đề Hiện Có
+      </button>
+    </div>
+
+    <!-- ===================================================================
+         TAB 1: RA ĐỀ CÁC LOẠI (EXAM CREATOR STUDIO)
+         =================================================================== -->
+    <section id="tabCreator" class="teacher-tab-content">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill purple">✨</span>
+          Soạn Đề Kiểm Tra / Bài Tập Đa Dạng
+        </h2>
+      </div>
+
+      <div class="question-card" style="padding: 2.25rem;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+          <div class="input-group">
+            <label>Tiêu đề bài kiểm tra (*):</label>
+            <input type="text" class="input-control" id="creatorTitleInput" placeholder="Ví dụ: Kiểm tra 15 phút Unit 1 & 2 - Tiếng Anh 7" value="Bài Tập Tiếng Anh THCS - Thầy Thành">
+          </div>
+
+          <div class="input-group">
+            <label>Khối lớp THCS:</label>
+            <select class="input-control" id="creatorGradeSelect" style="cursor: pointer;">
+              <option value="6">Lớp 6 (Global Success)</option>
+              <option value="7" selected>Lớp 7 (Global Success)</option>
+              <option value="8">Lớp 8 (Global Success)</option>
+              <option value="9">Lớp 9 (Global Success)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Thời gian làm bài (phút):</label>
+            <input type="number" class="input-control" id="creatorDurationInput" value="45" min="5" max="180">
+          </div>
+        </div>
+
+        <div class="input-group" style="margin-bottom: 1.75rem;">
+          <label>Mô tả / Dặn dò của giáo viên:</label>
+          <input type="text" class="input-control" id="creatorDescInput" placeholder="Ví dụ: Các em ôn tập kỹ phần từ vựng và ngữ pháp trước khi làm bài">
+        </div>
+
+        <!-- SELECT QUESTION TYPES -->
+        <label style="font-size: 0.85rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.85rem;">
+          🎯 Chọn các dạng bài tập tích hợp vào đề:
+        </label>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.85rem; margin-bottom: 2rem;">
+          <label class="option-item" style="cursor: pointer;">
+            <input type="checkbox" class="cb-qtype" value="phonetics" checked style="width: 18px; height: 18px;">
+            <span style="font-weight: 600;">1. Ngữ âm & Phát âm (-ed, -s/es)</span>
+          </label>
+
+          <label class="option-item" style="cursor: pointer;">
+            <input type="checkbox" class="cb-qtype" value="odd_one_out" checked style="width: 18px; height: 18px;">
+            <span style="font-weight: 600;">2. Tìm từ khác loại (Odd one out)</span>
+          </label>
+
+          <label class="option-item" style="cursor: pointer;">
+            <input type="checkbox" class="cb-qtype" value="multiple_choice" checked style="width: 18px; height: 18px;">
+            <span style="font-weight: 600;">3. Trắc nghiệm từ vựng & ngữ pháp</span>
+          </label>
+
+          <label class="option-item" style="cursor: pointer;">
+            <input type="checkbox" class="cb-qtype" value="cloze" checked style="width: 18px; height: 18px;">
+            <span style="font-weight: 600;">4. Điền từ đoạn văn (Cloze Test)</span>
+          </label>
+
+          <label class="option-item" style="cursor: pointer;">
+            <input type="checkbox" class="cb-qtype" value="matching" checked style="width: 18px; height: 18px;">
+            <span style="font-weight: 600;">5. Ghép cặp & Nối câu (Matching)</span>
+          </label>
+
+          <label class="option-item" style="cursor: pointer;">
+            <input type="checkbox" class="cb-qtype" value="sentence_unscramble" checked style="width: 18px; height: 18px;">
+            <span style="font-weight: 600;">6. Sắp xếp từ xáo trộn thành câu</span>
+          </label>
+
+          <label class="option-item" style="cursor: pointer;">
+            <input type="checkbox" class="cb-qtype" value="transformation" checked style="width: 18px; height: 18px;">
+            <span style="font-weight: 600;">7. Viết lại câu không đổi nghĩa</span>
+          </label>
+
+          <label class="option-item" style="cursor: pointer;">
+            <input type="checkbox" class="cb-qtype" value="reading" checked style="width: 18px; height: 18px;">
+            <span style="font-weight: 600;">8. Đọc hiểu đoạn văn trả lời câu hỏi</span>
+          </label>
+
+          <label class="option-item" style="cursor: pointer;">
+            <input type="checkbox" class="cb-qtype" value="listening" checked style="width: 18px; height: 18px;">
+            <span style="font-weight: 600;">9. Bài tập Nghe Audio (Listening)</span>
+          </label>
+        </div>
+
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <button type="button" class="btn btn-primary btn-lg" id="btnSubmitCreateExam" style="box-shadow: var(--shadow-glow);">
+            🚀 Tạo Đề & Lấy Link Giao Bài Cho Học Sinh
+          </button>
+          <span style="font-size: 0.85rem; color: var(--text-dim);">
+            Hệ thống sẽ tự động bốc câu hỏi từ ngân hàng chuẩn hóa và tạo link giao bài kèm mã QR ngay tức thì!
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         TAB 2: LINK NHẬN BÀI & BẢNG ĐIỂM LIVE (SUBMISSIONS HUB)
+         =================================================================== -->
+    <section id="tabSubmissions" class="teacher-tab-content" style="display: none;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill green">📊</span>
+          Bảng Điểm & Quản Lý Bài Nộp Thời Gian Thực
+        </h2>
+        <div>
+          <button type="button" class="btn btn-emerald" onclick="exportExcelScores()">
+            📥 Xuất Bảng Điểm Ra Excel (.xlsx)
+          </button>
+        </div>
+      </div>
+
+      <!-- SELECT EXAM TO VIEW -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;">
+        <span style="font-weight: 700; color: #38bdf8;">Chọn bài kiểm tra:</span>
+        <select class="input-control" id="selectExamForSubmissions" style="flex-grow: 1; cursor: pointer;" onchange="loadSubmissionsForExam(this.value)">
+          <option value="">-- Đang tải danh sách bài kiểm tra... --</option>
+        </select>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="refreshSubmissionsSelect()">
+          🔄 Làm mới
+        </button>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc;">👥</div>
+          <div>
+            <div class="stat-val" id="statTotalSubs">0</div>
+            <div class="stat-label">Học sinh đã nộp</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(6, 182, 212, 0.2); color: #67e8f9;">🎯</div>
+          <div>
+            <div class="stat-val" id="statAvgScore">0.0đ</div>
+            <div class="stat-label">Điểm trung bình</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7;">🏆</div>
+          <div>
+            <div class="stat-val" id="statMaxScore">0.0đ</div>
+            <div class="stat-label">Điểm cao nhất</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(245, 158, 11, 0.2); color: #fcd34d;">🌟</div>
+          <div>
+            <div class="stat-val" id="statExcellent">0 em</div>
+            <div class="stat-label">Học sinh Giỏi (≥ 8.0)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBMISSIONS TABLE -->
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 60px; text-align: center;">STT</th>
+              <th>Họ và Tên Học Sinh</th>
+              <th style="width: 100px; text-align: center;">Lớp</th>
+              <th style="width: 130px; text-align: center;">Điểm Số</th>
+              <th style="width: 160px; text-align: center;">Xếp Loại</th>
+              <th style="width: 130px; text-align: center;">Số Câu Đúng</th>
+              <th style="width: 180px;">Thời Gian Nộp</th>
+            </tr>
+          </thead>
+          <tbody id="submissionsTableBody">
+            <tr>
+              <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 3rem;">
+                Vui lòng chọn bài kiểm tra ở trên để xem danh sách điểm.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         TAB: QUẢN LÝ LỚP HỌC & TẠO TÀI KHOẢN HỌC SINH (BULK IMPORT)
+         =================================================================== -->
+    <section id="tabStudents" class="teacher-tab-content" style="display: none;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill purple">👥</span>
+          Quản Lý Lớp Học & Cấp Tài Khoản Học Sinh Hàng Loạt
+        </h2>
+        <div style="display: flex; gap: 0.65rem;">
+          <button type="button" class="btn btn-emerald" onclick="exportStudentAccountsExcel()">
+            📥 Xuất Danh Sách Tài Khoản Ra Excel (.xlsx)
+          </button>
+        </div>
+      </div>
+
+      <div class="question-card" style="padding: 2rem; margin-bottom: 2rem;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+          <div class="input-group">
+            <label>Chọn Lớp Học Cần Cấp Tài Khoản:</label>
+            <select class="input-control" id="selectClassForAccounts" style="cursor: pointer;" onchange="loadClassStudentsList(this.value)">
+              <option value="6A">Lớp 6A (Khối 6)</option>
+              <option value="6B">Lớp 6B (Khối 6)</option>
+              <option value="7A">Lớp 7A (Khối 7)</option>
+              <option value="8A">Lớp 8A (Khối 8)</option>
+              <option value="9A">Lớp 9A (Khối 9)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Mật Khẩu Ban Đầu Mặc Định:</label>
+            <input type="text" class="input-control" id="defaultStudentPassword" value="123456" placeholder="123456">
+          </div>
+        </div>
+
+        <div class="input-group" style="margin-bottom: 1.5rem;">
+          <label>Dán Danh Sách Học Sinh (Copy từ Excel hoặc Word - Mỗi dòng 1 học sinh):</label>
+          <textarea class="input-control" id="rawStudentsInput" rows="6" style="resize: vertical; font-family: monospace;" placeholder="Ví dụ dán vào:
+1. Nguyễn Hoàng Long
+2. Trần Thị Mai
+3. Lê Quang Huy
+4. Hoàng Minh Châu
+5. Đỗ Gia Bảo"></textarea>
+          <div style="font-size: 0.82rem; color: var(--text-dim); margin-top: 0.35rem;">
+            💡 Thầy có thể copy cả cột họ tên từ bảng Excel hoặc Word rồi dán thẳng vào ô này. Hệ thống sẽ tự động lọc tên, loại bỏ số thứ tự thừa!
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-lg" onclick="handleImportStudents()">
+          ⚡ TỰ ĐỘNG TẠO TÀI KHOẢN HỌC SINH NGAY
+        </button>
+      </div>
+
+      <!-- TABLE OF CREATED ACCOUNTS -->
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 60px; text-align: center;">STT</th>
+              <th style="width: 130px; text-align: center;">Mã Học Sinh</th>
+              <th>Họ và Tên Học Sinh</th>
+              <th style="width: 100px; text-align: center;">Lớp</th>
+              <th style="width: 180px; text-align: center;">Tên Đăng Nhập</th>
+              <th style="width: 140px; text-align: center;">Mật Khẩu</th>
+              <th style="width: 120px; text-align: center;">Trạng Thái</th>
+            </tr>
+          </thead>
+          <tbody id="studentAccountsTableBody">
+            <tr>
+              <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">
+                Đang tải danh sách tài khoản học sinh...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         TAB: SỔ ĐIỂM ĐIỆN TỬ & ĐÁNH GIÁ ĐIỂM ONLINE CHUYÊN NGHIỆP
+         =================================================================== -->
+    <section id="tabGradebook" class="teacher-tab-content" style="display: none;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill cyan">📈</span>
+          Sổ Điểm Điện Tử & Đánh Giá Học Sinh Chuyên Nghiệp
+        </h2>
+        <div>
+          <button type="button" class="btn btn-emerald" onclick="exportClassGradebookExcel()">
+            📥 Xuất Sổ Điểm Lớp Ra Excel (.xlsx)
+          </button>
+        </div>
+      </div>
+
+      <!-- SELECT CLASS FOR GRADEBOOK -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <span style="font-weight: 700; color: #38bdf8;">Chọn lớp theo dõi sổ điểm:</span>
+        <select class="input-control" id="selectClassForGradebook" style="min-width: 200px; cursor: pointer;" onchange="loadClassGradebook(this.value)">
+          <option value="6A">Lớp 6A (Khối 6)</option>
+          <option value="6B">Lớp 6B (Khối 6)</option>
+          <option value="7A">Lớp 7A (Khối 7)</option>
+          <option value="8A">Lớp 8A (Khối 8)</option>
+          <option value="9A">Lớp 9A (Khối 9)</option>
+        </select>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="loadClassGradebook(document.getElementById('selectClassForGradebook').value)">
+          🔄 Cập nhật sổ điểm
+        </button>
+      </div>
+
+      <!-- GRADEBOOK STATS CARDS -->
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc;">🏫</div>
+          <div>
+            <div class="stat-val" id="gbTotalStudents">0 em</div>
+            <div class="stat-label">Sĩ số lớp học</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7;">✅</div>
+          <div>
+            <div class="stat-val" id="gbSubmissionRate">0%</div>
+            <div class="stat-label">Tỷ lệ nộp bài</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(6, 182, 212, 0.2); color: #67e8f9;">📊</div>
+          <div>
+            <div class="stat-val" id="gbClassAverage">0.0đ</div>
+            <div class="stat-label">Điểm trung bình lớp</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(239, 68, 68, 0.2); color: #f87171;">⚠️</div>
+          <div>
+            <div class="stat-val" id="gbUnsubmittedCount">0 em</div>
+            <div class="stat-label">Chưa nộp bài</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ZALO REMINDER CARD -->
+      <div id="zaloReminderBox" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem; display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+          <span style="font-size: 1rem; font-weight: 800; color: #fcd34d;">
+            📢 Danh Sách Học Sinh Chưa Nộp Bài & Nhắc Nhở Zalo
+          </span>
+          <button type="button" class="btn btn-amber btn-sm" onclick="copyZaloReminderMessage()" style="background: #f59e0b; color: #000; font-weight: 800;">
+            📋 Sao Chép Tin Nhắn Gửi Zalo Lớp
+          </button>
+        </div>
+        <textarea class="input-control" id="zaloReminderContent" rows="4" readonly style="resize: none; background: rgba(15, 23, 42, 0.8);"></textarea>
+      </div>
+
+      <!-- MASTER GRADEBOOK TABLE -->
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 60px; text-align: center;">STT</th>
+              <th style="width: 130px; text-align: center;">Mã Học Sinh</th>
+              <th>Họ và Tên Học Sinh</th>
+              <th style="width: 140px; text-align: center;">Bài Đã Nộp</th>
+              <th style="width: 130px; text-align: center;">Điểm TB Môn</th>
+              <th style="width: 170px; text-align: center;">Xếp Loại Học Lực</th>
+              <th style="width: 140px; text-align: center;">Trạng Thái</th>
+            </tr>
+          </thead>
+          <tbody id="classGradebookTableBody">
+            <!-- Rendered by teacher.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         TAB: KIẾN THỨC 105 TIẾT (CHUẨN KIEN)
+         =================================================================== -->
+    <section id="tabCurriculum" class="teacher-tab-content" style="display: none;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill green">📖</span>
+          Khung Kiến Thức & Phân Phối Chương Trình 105 Tiết (Chuẩn Kien)
+        </h2>
+        <div class="grade-tabs" style="margin-bottom: 0;">
+          <button class="grade-btn active" onclick="loadCurriculumView('6', this)">Khối 6 (105 tiết)</button>
+          <button class="grade-btn" onclick="loadCurriculumView('7', this)">Khối 7 (105 tiết)</button>
+          <button class="grade-btn" onclick="loadCurriculumView('8', this)">Khối 8 (105 tiết)</button>
+          <button class="grade-btn" onclick="loadCurriculumView('9', this)">Khối 9 (105 tiết)</button>
+        </div>
+      </div>
+
+      <div class="exam-grid" id="curriculumUnitsGrid">
+        <!-- Rendered by teacher.js -->
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         TAB: KHO ĐỀ HIỆN CÓ
+         =================================================================== -->
+    <section id="tabExamsList" class="teacher-tab-content" style="display: none;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill amber">📦</span>
+          Danh Sách Các Bộ Đề Đang Hoạt Động
+        </h2>
+      </div>
+
+      <div class="exam-grid" id="teacherExamsList">
+        <!-- Rendered by teacher.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SHARE LINK & QR MODAL -->
+  <div class="modal-overlay" id="shareLinkModal">
+    <div class="modal-card">
+      <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">
+        🔗 Link Giao Bài & Mã QR Cho Học Sinh
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Mã bài thi: <b id="modalExamIdDisplay" style="color: #38bdf8;">ENG6_GK1</b>
+      </p>
+
+      <div class="qr-preview-box">
+        <canvas id="qrCanvas" width="220" height="220"></canvas>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.85rem; text-align: left; margin-bottom: 1.5rem;">
+        <div class="input-group">
+          <label>Link làm bài qua mạng WiFi / Điện thoại học sinh:</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" class="input-control" id="shareLanUrl" readonly style="flex-grow: 1;">
+            <button class="btn btn-cyan btn-sm" onclick="copyToClipboard('shareLanUrl', 'Đã copy link điện thoại học sinh!')">Copy</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Link làm bài máy nội bộ (Localhost):</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" class="input-control" id="shareLocalUrl" readonly style="flex-grow: 1;">
+            <button class="btn btn-secondary btn-sm" onclick="copyToClipboard('shareLocalUrl', 'Đã copy link localhost!')">Copy</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Mẫu tin nhắn dặn dò Zalo gửi nhóm lớp:</label>
+          <textarea class="input-control" id="shareZaloText" rows="3" readonly style="resize: none;"></textarea>
+          <button class="btn btn-emerald btn-sm" style="margin-top: 0.4rem;" onclick="copyToClipboard('shareZaloText', 'Đã copy tin nhắn Zalo gửi học sinh!')">
+            📋 Sao Chép Tin Nhắn Zalo
+          </button>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center;">
+        <button type="button" class="btn btn-primary" onclick="window.open(document.getElementById('shareLocalUrl').value, '_blank')">
+          🌐 Thử Làm Bài Ngay
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('shareLinkModal').classList.remove('active')">
+          Đóng Cửa Sổ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p><b>HỆ THỐNG HỌC & KIỂM TRA TIẾNG ANH THCS</b> • Thầy giáo Đinh Văn Thành (0915.213717)</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="/static/js/audio_effects.js"></script>
+  <script src="/static/js/qr_generator.js"></script>
+  <script src="/static/js/teacher.js"></script>
+</body>
+</html>

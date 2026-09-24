@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thẻ Từ Vựng 3D Đa Giác Quan - Global Learning THCS | Thầy Đinh Văn Thành</title>
+  <link rel="icon" href="/static/images/global_learning_logo.svg">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="/static/js/audio_effects.js"></script>
+  <script src="/static/js/confetti.js"></script>
+  <script src="/static/js/speaking_data.js"></script>
+  <script src="/static/js/speaking_studio.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-wrapper">
+        <img src="/static/images/global_learning_logo.svg" alt="Global Learning Logo" class="mascot-icon">
+        <div class="brand-info">
+          <h1>GLOBAL LEARNING THCS</h1>
+          <p><span>🗂️</span> THẺ TỪ VỰNG 3D • THẦY ĐINH VĂN THÀNH</p>
+        </div>
+      </a>
+
+      <!-- GAMIFIED STATS -->
+      <div class="student-stats-wrapper">
+        <div class="stat-pill stat-pill-streak">
+          <span>🔥</span>
+          <span id="userStreakDays">3 Ngày 🔥</span>
+        </div>
+        <div class="stat-pill stat-pill-xp">
+          <span>⚡</span>
+          <span id="userTotalXp">120 XP</span>
+        </div>
+      </div>
+
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/">🏠 Trang Chủ</a></li>
+        <li class="nav-item"><a href="/luyen-noi">🎙️ Luyện Nói AI</a></li>
+        <li class="nav-item"><a href="/the-tu-vung" class="active">🗂️ Thẻ Từ 3D</a></li>
+        <li class="nav-item"><a href="/lam-bai">✍️ Làm Bài Thi</a></li>
+        <li class="nav-item"><a href="/tro-choi">🎮 Trò Chơi</a></li>
+        <li class="nav-item"><a href="/giao-vien">👨‍🏫 Giáo Viên</a></li>
+      </ul>
+
+      <a href="https://zalo.me/0915213717" target="_blank" class="nav-badge-hotline">
+        <span>💬 Zalo: 0915.213717</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main-layout" style="max-width: 1200px;">
+    <div style="text-align: center; margin-bottom: 2.5rem;">
+      <div class="hero-pill" style="margin-bottom: 1rem;">
+        <span>✨ PHƯƠNG PHÁP GHI NHỚ TỪ VỰNG ĐA GIÁC QUAN (AUDIO + IPA + 3D)</span>
+      </div>
+      <h1 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900; color: #fff; margin-bottom: 0.85rem;">
+        Thẻ Từ Vựng Thông Minh <span class="gradient-text">3D Flashcards</span>
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 1.5rem; line-height: 1.6;">
+        Nhấp chuột hoặc chạm vào thẻ để lật 180° xem định nghĩa, ví dụ minh họa và bấm loa để nghe phát âm chuẩn bản xứ!
+      </p>
+
+      <div class="grade-tabs" style="justify-content: center;">
+        <button class="grade-btn active" onclick="switchFlashcardGrade('6', this)">Lớp 6</button>
+        <button class="grade-btn" onclick="switchFlashcardGrade('7', this)">Lớp 7</button>
+        <button class="grade-btn" onclick="switchFlashcardGrade('8', this)">Lớp 8</button>
+        <button class="grade-btn" onclick="switchFlashcardGrade('9', this)">Lớp 9</button>
+      </div>
+    </div>
+
+    <!-- FLASHCARDS GRID -->
+    <div class="flashcards-container" id="flashcardsGrid">
+      <!-- Rendered by JS -->
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p><b>GLOBAL LEARNING THCS - HỆ THỐNG LUYỆN NÓI & HỌC TIẾNG ANH THCS</b></p>
+    <p>Tác giả: Thầy giáo Đinh Văn Thành • Trường THCS Đồng Yên • Hotline / Zalo: 0915.213717</p>
+  </footer>
+
+  <script>
+    let activeGrade = '6';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderFlashcards('6');
+    });
+
+    function switchFlashcardGrade(grade, btn) {
+      document.querySelectorAll('.grade-tabs .grade-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeGrade = grade;
+      renderFlashcards(grade);
+    }
+
+    function renderFlashcards(grade) {
+      const container = document.getElementById('flashcardsGrid');
+      if (!container) return;
+
+      const words = FLASHCARDS_DATA[grade] || [];
+      let html = '';
+
+      words.forEach((item, idx) => {
+        html += `
+          <div class="flashcard-3d" onclick="toggleCardFlip(this)">
+            <div class="flashcard-inner">
+              <!-- FRONT -->
+              <div class="flashcard-front">
+                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; font-weight: 800; margin-bottom: 0.5rem;">
+                  ${item.pos ? `[${item.pos}]` : ''} • LỚP ${grade}
+                </span>
+                <h3 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 0.4rem;">
+                  ${item.word}
+                </h3>
+                <div style="font-family: monospace; color: #a5b4fc; font-size: 1.05rem; margin-bottom: 1.25rem;">
+                  ${item.ipa}
+                </div>
+                <div style="display: flex; gap: 0.5rem;" onclick="event.stopPropagation();">
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="speakNativeModel('${item.word}', 1.0)">
+                    🔊 Nghe Phát Âm
+                  </button>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 1rem;">
+                  👆 Chạm để lật xem nghĩa
+                </div>
+              </div>
+
+              <!-- BACK -->
+              <div class="flashcard-back">
+                <div style="font-size: 0.8rem; color: #34d399; font-weight: 800; margin-bottom: 0.4rem;">
+                  ✅ Ý NGHĨA TIẾNG VIỆT
+                </div>
+                <h4 style="font-size: 1.2rem; color: #fff; font-weight: 700; margin-bottom: 0.75rem;">
+                  ${item.meaning}
+                </h4>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.75rem; font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; text-align: left;">
+                  <b style="color: #38bdf8;">Ví dụ:</b> "${item.example}"
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.75rem;">
+                  🔄 Bấm để lật lại
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function toggleCardFlip(cardEl) {
+      if (window.sounds) sounds.playClick();
+      cardEl.classList.toggle('flipped');
+    }
+  </script>
+</body>
+</html>

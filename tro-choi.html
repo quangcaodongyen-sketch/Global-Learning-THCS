@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đấu Trường Bài Tập & Mini-Games Tiếng Anh THCS</title>
+  <link rel="icon" href="/assets/app_logo.ico">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-wrapper">
+        <img src="/static/images/global_learning_logo.svg" alt="Global Learning Logo" class="mascot-icon">
+        <div class="brand-info">
+          <h1>GLOBAL LEARNING THCS</h1>
+          <p><span>🎮</span> ĐẤU TRƯỜNG TRÒ CHƠI TIẾNG ANH • THẦY ĐINH VĂN THÀNH</p>
+        </div>
+      </a>
+
+      <!-- GAMIFIED STATS -->
+      <div class="student-stats-wrapper">
+        <div class="stat-pill stat-pill-streak">
+          <span>🔥</span>
+          <span id="userStreakDays">3 Ngày 🔥</span>
+        </div>
+        <div class="stat-pill stat-pill-xp">
+          <span>⚡</span>
+          <span id="userTotalXp">120 XP</span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <a href="/luyen-noi" class="btn btn-secondary btn-sm">🎙️ Luyện Nói AI</a>
+        <a href="/" class="btn btn-primary btn-sm">🏠 Trang Chủ</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout" style="max-width: 1050px;">
+
+    <!-- HEADER TITLE & CONTROLS -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h2 style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: #fff;">
+          🎮 Đấu Trường Bài Tập & Mini-Games
+        </h2>
+        <p style="font-size: 0.95rem; color: var(--text-muted);">
+          Vừa chơi vừa học Tiếng Anh cấp 2 thật cuốn hút với âm thanh sinh động và thử thách hấp dẫn!
+        </p>
+      </div>
+
+      <!-- GRADE SELECTOR BUTTONS -->
+      <div class="grade-tabs" style="margin-bottom: 0;">
+        <button class="grade-btn game-grade-btn active" data-grade="6">Lớp 6</button>
+        <button class="grade-btn game-grade-btn" data-grade="7">Lớp 7</button>
+        <button class="grade-btn game-grade-btn" data-grade="8">Lớp 8</button>
+        <button class="grade-btn game-grade-btn" data-grade="9">Lớp 9</button>
+      </div>
+    </div>
+
+    <!-- GAME SELECTION BUTTONS -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2.5rem;">
+      <button class="btn btn-primary game-nav-btn active" data-game="wheel" style="padding: 1rem;">
+        <span>🎡</span> Vòng Quay May Mắn
+      </button>
+      <button class="btn btn-secondary game-nav-btn" data-game="millionaire" style="padding: 1rem;">
+        <span>💰</span> Ai Là Triệu Phú
+      </button>
+      <button class="btn btn-secondary game-nav-btn" data-game="speed_match" style="padding: 1rem;">
+        <span>⚡</span> Đua Ghép Cặp Từ
+      </button>
+      <button class="btn btn-secondary game-nav-btn" data-game="puzzle" style="padding: 1rem;">
+        <span>🧩</span> Xếp Câu Thông Minh
+      </button>
+    </div>
+
+    <!-- ===================================================================
+         PANEL 1: VÒNG QUAY MAY MẮN (LUCKY VOCAB WHEEL)
+         =================================================================== -->
+    <section id="panel_wheel" class="game-view-panel">
+      <div class="question-card" style="text-align: center; padding: 2.5rem 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+          <span style="font-size: 1.1rem; font-weight: 700; color: #38bdf8;">🏆 Điểm thưởng: <span id="wheelScoreDisplay" style="color: #f59e0b;">0 XP</span></span>
+          <span style="font-size: 0.85rem; color: var(--text-dim);">Bấm nút quay để nhận thử thách từ vựng</span>
+        </div>
+
+        <div class="wheel-wrapper">
+          <div class="wheel-pointer"></div>
+          <canvas id="wheelCanvas" width="420" height="420"></canvas>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <button type="button" class="btn btn-primary btn-lg" onclick="spinWheel()" style="min-width: 240px; font-size: 1.25rem; box-shadow: var(--shadow-glow);">
+            🎯 QUAY THƯỞNG NGAY
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         PANEL 2: AI LÀ TRIỆU PHÚ (ENGLISH MILLIONAIRE)
+         =================================================================== -->
+    <section id="panel_millionaire" class="game-view-panel" style="display: none;">
+      <div class="question-card" style="padding: 2.25rem;">
+        <!-- TOP LIFELINES & SCORE -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 1rem;">
+          <div style="display: flex; gap: 0.65rem;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn5050" onclick="useLifeline5050()">
+              ⚖️ Trợ giúp 50:50
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnAudience" onclick="useLifelineAudience()">
+              👥 Hỏi Khán Giả
+            </button>
+          </div>
+
+          <div style="text-align: right;">
+            <span class="q-badge" id="milLevelDisplay">Câu 1 / 10</span>
+            <span style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800; color: #f59e0b; margin-left: 0.5rem;" id="milRewardDisplay">$100 Điểm</span>
+          </div>
+        </div>
+
+        <!-- QUESTION TEXT -->
+        <div class="q-stem" id="milQuestionText" style="font-size: 1.25rem; min-height: 60px; display: flex; align-items: center; justify-content: center; text-align: center; margin: 1.5rem 0;">
+          Đang tải câu hỏi Triệu Phú...
+        </div>
+
+        <!-- OPTIONS GRID -->
+        <div class="options-grid" id="milOptionsContainer" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <!-- Rendered by fun_games.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         PANEL 3: ĐUA GHÉP CẶP TỪ VỰNG TỐC ĐỘ (SPEED MATCH)
+         =================================================================== -->
+    <section id="panel_speed_match" class="game-view-panel" style="display: none;">
+      <div class="question-card" style="padding: 2.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: #fff;">
+              ⚡ Nối Từ Tiếng Anh Với Nghĩa Tiếng Việt
+            </h3>
+            <span style="font-size: 0.85rem; color: var(--text-dim);">Bấm 1 từ tiếng Anh bên trái rồi bấm 1 nghĩa tương ứng bên phải</span>
+          </div>
+
+          <div>
+            <span style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800; color: #10b981;" id="speedMatchScore">0 đ</span>
+          </div>
+        </div>
+
+        <div class="matching-container">
+          <div class="matching-col" id="speedMatchLeft">
+            <!-- English Cards -->
+          </div>
+          <div class="matching-col" id="speedMatchRight">
+            <!-- Vietnamese Cards -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         PANEL 4: XẾP CÂU THÔNG MINH (SENTENCE BUILDER PUZZLE)
+         =================================================================== -->
+    <section id="panel_puzzle" class="game-view-panel" style="display: none;">
+      <div class="question-card" style="padding: 2.25rem;">
+        <div style="margin-bottom: 1.25rem;">
+          <span class="q-badge">Thử Thách Ghép Câu</span>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #38bdf8; margin-top: 0.5rem;" id="puzzleVietnameseClue">
+            Đang tải câu dịch...
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.4rem; display: block;">Các khối từ xáo trộn (Bấm vào từ để ghép):</label>
+          <div class="chip-container" id="puzzleChipsPool" style="min-height: 60px;">
+            <!-- Word Chips -->
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.75rem;">
+          <label style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.4rem; display: block;">Câu tiếng Anh em ghép được:</label>
+          <input type="text" class="input-control" id="puzzleAssembledSentence" style="font-size: 1.1rem; font-weight: 700; color: #fff;" readonly placeholder="Bấm các từ ở trên để xếp câu...">
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+          <button type="button" class="btn btn-primary" onclick="verifySentencePuzzle()">
+            ✅ Kiểm Tra Kết Quả
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="resetCurrentSentencePuzzle()">
+            🔄 Xếp Lại
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- WHEEL CHALLENGE MODAL -->
+  <div class="modal-overlay" id="wheelChallengeModal">
+    <div class="modal-card">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎉</div>
+      <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: #38bdf8; margin-bottom: 0.25rem;" id="wheelWordTitle">
+        Compass /ˈkʌm.pəs/
+      </h3>
+      <p style="font-size: 0.95rem; color: #a5b4fc; font-weight: 600; margin-bottom: 1.25rem;" id="wheelWordMeaning">
+        Cái com-pa
+      </p>
+
+      <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+        <span style="font-size: 0.82rem; color: #38bdf8; font-weight: 700; text-transform: uppercase;">Thử thách mini:</span>
+        <div style="font-size: 1.05rem; font-weight: 700; color: #fff; margin-top: 0.4rem;" id="wheelChallengeQuestion">
+          What do you use a compass for?
+        </div>
+      </div>
+
+      <div id="wheelChallengeOptions" style="display: flex; flex-direction: column; gap: 0.65rem;">
+        <!-- Option items -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p><b>HỆ THỐNG HỌC & KIỂM TRA TIẾNG ANH THCS</b> • Thầy giáo Đinh Văn Thành (0915.213717)</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="/static/js/audio_effects.js"></script>
+  <script src="/static/js/confetti.js"></script>
+  <script src="/static/js/fun_games.js"></script>
+</body>
+</html>
