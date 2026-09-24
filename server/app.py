@@ -59,20 +59,21 @@ app.add_middleware(
 
 # Đường dẫn thư mục
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-WEB_DIR = os.path.join(BASE_DIR, "web")
-STATIC_DIR = os.path.join(WEB_DIR, "static")
+WEB_DIR = BASE_DIR if os.path.exists(os.path.join(BASE_DIR, "index.html")) else os.path.join(BASE_DIR, "web")
+STATIC_DIR = os.path.join(BASE_DIR, "static") if os.path.exists(os.path.join(BASE_DIR, "static")) else os.path.join(WEB_DIR, "static")
 ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 
-os.makedirs(STATIC_DIR, exist_ok=True)
-os.makedirs(ASSETS_DIR, exist_ok=True)
-
 # Mount static files
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+if os.path.exists(STATIC_DIR):
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 if os.path.exists(ASSETS_DIR):
     app.mount("/assets", StaticFiles(directory=ASSETS_DIR), name="assets")
 
 # Đảm bảo có sẵn các bộ đề mặc định
-generate_default_suite()
+try:
+    generate_default_suite()
+except Exception as e:
+    print(f"Warning: generate_default_suite: {e}")
 
 # =========================================================================
 # WEB PAGES SERVING

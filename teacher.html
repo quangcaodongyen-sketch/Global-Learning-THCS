@@ -298,16 +298,56 @@
           </div>
         </div>
 
-        <div class="input-group" style="margin-bottom: 1.5rem;">
-          <label>Dán Danh Sách Học Sinh (Copy từ Excel hoặc Word - Mỗi dòng 1 học sinh):</label>
-          <textarea class="input-control" id="rawStudentsInput" rows="6" style="resize: vertical; font-family: monospace;" placeholder="Ví dụ dán vào:
+        <!-- TÙY CHỌN NHẬP: ĐƯA TỆP LÊN (EXCEL/WORD) HOẶC DÁN VĂN BẢN -->
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary btn-sm import-mode-btn active" id="btnModeFileUpload" onclick="switchStudentImportMode('file')">
+            📂 Đưa Tệp Danh Sách Lên (Excel .xlsx, .xls hoặc Word .docx)
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm import-mode-btn" id="btnModeTextPaste" onclick="switchStudentImportMode('paste')">
+            📝 Dán Danh Sách Bằng Chữ (Copy / Paste)
+          </button>
+        </div>
+
+        <!-- 1. VÙNG TẢI LÊN TỆP EXCEL / WORD -->
+        <div id="sectionFileUpload" style="margin-bottom: 1.5rem;">
+          <div id="studentDropZone" class="file-drop-zone" onclick="document.getElementById('studentFileInput').click()" style="border: 2px dashed #38bdf8; background: rgba(56, 189, 248, 0.05); border-radius: var(--radius-lg); padding: 2rem 1.5rem; text-align: center; cursor: pointer; transition: all 0.25s ease;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📁</div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: #fff;">
+              Bấm vào đây để chọn tệp <span style="color: #38bdf8;">Excel (.xlsx, .xls)</span> hoặc <span style="color: #6366f1;">Word (.docx, .doc)</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.35rem;">
+              Hoặc kéo thả trực tiếp tệp danh sách lớp từ máy tính vào khung này. Hệ thống tự động đọc cột Họ tên!
+            </p>
+            <input type="file" id="studentFileInput" accept=".xlsx,.xls,.docx,.doc,.txt,.csv" style="display: none;" onchange="handleStudentFileSelect(this)">
+          </div>
+
+          <div id="fileUploadStatus" style="display: none; margin-top: 1rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <b id="fileUploadStatusTitle">✅ Đã nhận diện được học sinh</b>
+                <div id="fileUploadStatusSub" style="font-size: 0.85rem; color: #cbd5e1; margin-top: 0.25rem;"></div>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="clearSelectedStudentFile()" style="padding: 0.25rem 0.6rem; font-size: 0.78rem;">
+                🔄 Đổi Tệp Khác
+              </button>
+            </div>
+            <div id="fileDetectedNamesPills" style="margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.4rem; max-height: 120px; overflow-y: auto;"></div>
+          </div>
+        </div>
+
+        <!-- 2. VÙNG DÁN VĂN BẢN TRỰC TIẾP -->
+        <div id="sectionTextPaste" style="display: none; margin-bottom: 1.5rem;">
+          <div class="input-group">
+            <label>Dán Danh Sách Học Sinh (Copy từ Excel hoặc Word - Mỗi dòng 1 học sinh):</label>
+            <textarea class="input-control" id="rawStudentsInput" rows="6" style="resize: vertical; font-family: monospace;" placeholder="Ví dụ dán vào:
 1. Nguyễn Hoàng Long
 2. Trần Thị Mai
 3. Lê Quang Huy
 4. Hoàng Minh Châu
 5. Đỗ Gia Bảo"></textarea>
-          <div style="font-size: 0.82rem; color: var(--text-dim); margin-top: 0.35rem;">
-            💡 Thầy có thể copy cả cột họ tên từ bảng Excel hoặc Word rồi dán thẳng vào ô này. Hệ thống sẽ tự động lọc tên, loại bỏ số thứ tự thừa!
+            <div style="font-size: 0.82rem; color: var(--text-dim); margin-top: 0.35rem;">
+              💡 Thầy có thể copy cả cột họ tên từ bảng Excel hoặc Word rồi dán thẳng vào ô này. Hệ thống sẽ tự động lọc tên, loại bỏ số thứ tự thừa!
+            </div>
           </div>
         </div>
 
@@ -540,6 +580,9 @@
   <!-- SCRIPTS -->
   <script src="/static/js/audio_effects.js"></script>
   <script src="/static/js/qr_generator.js"></script>
+  <script src="/static/js/xlsx.full.min.js"></script>
+  <script src="/static/js/mammoth.browser.min.js"></script>
+  <script src="/static/js/exam_data.js"></script>
   <script src="/static/js/teacher.js"></script>
 </body>
 </html>

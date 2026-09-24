@@ -9,13 +9,22 @@ import os
 import json
 import uuid
 import copy
+import tempfile
 from datetime import datetime
 from .question_bank import QUESTION_BANK
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+BASE_WORKSPACE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if os.environ.get("VERCEL") or not os.access(BASE_WORKSPACE, os.W_OK):
+    DATA_DIR = os.path.join(tempfile.gettempdir(), "global_learning_data")
+else:
+    DATA_DIR = os.path.join(BASE_WORKSPACE, "data")
+
 ASSIGNMENTS_FILE = os.path.join(DATA_DIR, "assignments.json")
 
-os.makedirs(DATA_DIR, exist_ok=True)
+try:
+    os.makedirs(DATA_DIR, exist_ok=True)
+except Exception:
+    pass
 
 def _load_assignments():
     if os.path.exists(ASSIGNMENTS_FILE):
@@ -27,8 +36,11 @@ def _load_assignments():
     return {}
 
 def _save_assignments(data):
-    with open(ASSIGNMENTS_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    try:
+        with open(ASSIGNMENTS_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"Warning: could not save assignments to disk: {e}")
 
 def generate_default_suite():
     """Tạo sẵn các bộ đề mẫu chuẩn THCS Lớp 6 - 9 nếu chưa có"""

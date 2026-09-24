@@ -16,14 +16,23 @@ import json
 import uuid
 import re
 from datetime import datetime
+import tempfile
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+BASE_WORKSPACE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if os.environ.get("VERCEL") or not os.access(BASE_WORKSPACE, os.W_OK):
+    DATA_DIR = os.path.join(tempfile.gettempdir(), "global_learning_data")
+else:
+    DATA_DIR = os.path.join(BASE_WORKSPACE, "data")
+
 CLASSES_FILE = os.path.join(DATA_DIR, "classes.json")
 STUDENTS_FILE = os.path.join(DATA_DIR, "students.json")
 
-os.makedirs(DATA_DIR, exist_ok=True)
+try:
+    os.makedirs(DATA_DIR, exist_ok=True)
+except Exception:
+    pass
 
 # Helper đọc ghi file
 def _read_json(filepath, default):
@@ -36,8 +45,11 @@ def _read_json(filepath, default):
     return default
 
 def _write_json(filepath, data):
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    try:
+        with open(filepath, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"Warning: could not write json {filepath}: {e}")
 
 def _remove_vietnamese_accents(text: str) -> str:
     """Chuyển tiếng Việt có dấu thành không dấu để tạo username đẹp"""
