@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Góc Phụ Huynh & Học Sinh – Cùng Con Học Tiếng Anh Hiệu Quả • Thầy Đinh Văn Thành</title>
+  <link rel="icon" href="/assets/app_logo.ico">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gs-primary: #2a7fff;
+      --gs-primary-hover: #1a6fef;
+      --gs-primary-shadow: #255cc7;
+      --gs-dark: #061533;
+      --gs-text: #1e293b;
+      --gs-text-muted: #64748b;
+      --gs-card-bg: #ffffff;
+      --gs-border: #e2e8f0;
+      --gs-amber: #f59e0b;
+      --gs-emerald: #10b981;
+      --gs-cyan: #06b6d4;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: var(--gs-text);
+      font-family: 'Nunito', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.5;
+    }
+
+    /* Top Global Navbar */
+    .gs-navbar {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--gs-border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+    .gs-nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .gs-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+    .gs-brand-logo {
+      height: 44px;
+      width: auto;
+    }
+    .gs-brand-text h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0284c7;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .gs-brand-text p {
+      font-size: 0.72rem;
+      color: #0369a1;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: 0.05em;
+    }
+    .gs-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .gs-nav-link {
+      color: #334155;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.5rem 0.25rem;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    .gs-nav-link:hover {
+      color: var(--gs-primary);
+    }
+    .gs-nav-link.active {
+      color: var(--gs-primary);
+      font-weight: 700;
+    }
+    .gs-nav-link.active::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gs-primary);
+      border-radius: 99px;
+    }
+    .gs-btn-login {
+      background: var(--gs-primary);
+      color: #ffffff !important;
+      padding: 0.65rem 1.4rem;
+      border-radius: 99px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      box-shadow: 0 4px 0 0 var(--gs-primary-shadow);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: none;
+      cursor: pointer;
+    }
+    .gs-btn-login:hover {
+      background: var(--gs-primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 0 var(--gs-primary-shadow);
+    }
+
+    /* Sub-bar & Breadcrumb & Dropdown Filter */
+    .gs-subbar {
+      max-width: 1280px;
+      margin: 1.25rem auto 0;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .gs-breadcrumb {
+      font-size: 0.85rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .gs-breadcrumb a {
+      color: #475569;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .gs-breadcrumb a:hover {
+      color: var(--gs-primary);
+    }
+    .gs-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 46px;
+      background: var(--gs-primary);
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      box-shadow: 0 4px 0 0 var(--gs-primary-shadow);
+      transition: all 0.15s ease;
+    }
+    .gs-toggle-btn:hover {
+      background: var(--gs-primary-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Hero Section (Gradient soft background matching GlobalSpeak) */
+    .gs-hero-section {
+      max-width: 1280px;
+      margin: 1.25rem auto 3rem;
+      padding: 0 1.5rem;
+    }
+    .gs-hero-card {
+      background: radial-gradient(circle at 100% 0%, rgba(254, 240, 138, 0.4) 0%, transparent 45%),
+                  radial-gradient(circle at 0% 100%, rgba(186, 230, 253, 0.5) 0%, transparent 50%),
+                  #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 28px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.05);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gs-hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .gs-hero-title {
+      font-family: 'Outfit', 'Nunito', sans-serif;
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--gs-dark);
+      line-height: 1.25;
+      margin: 0;
+    }
+    .gs-pills-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .gs-feature-pill {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #1e293b;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      transition: all 0.2s ease;
+    }
+    .gs-feature-pill:hover {
+      border-color: var(--gs-primary);
+      transform: translateX(4px);
+      box-shadow: 0 4px 14px rgba(42, 127, 255, 0.12);
+    }
+    .gs-pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gs-primary);
+      flex-shrink: 0;
+    }
+
+    .gs-hero-image-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .gs-hero-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 20px;
+      filter: drop-shadow(0 20px 40px rgba(42, 127, 255, 0.15));
+      transition: transform 0.3s ease;
+    }
+    .gs-hero-img:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Subsections */
+    .gs-section {
+      max-width: 1280px;
+      margin: 0 auto 3.5rem;
+      padding: 0 1.5rem;
+    }
+    .gs-section-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .gs-section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 1rem;
+      background: #e0f2fe;
+      color: #0369a1;
+      border-radius: 99px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    .gs-section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--gs-dark);
+      margin: 0 0 0.5rem;
+    }
+    .gs-section-desc {
+      font-size: 1.05rem;
+      color: var(--gs-text-muted);
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    /* 5-Step Roadmap Infographic (Screenshot 3) */
+    .gs-roadmap-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+      margin-bottom: 3rem;
+    }
+    .gs-roadmap-desc {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 1.75rem;
+      font-size: 1rem;
+      color: #334155;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .gs-roadmap-desc ul {
+      margin: 0.75rem 0 0;
+      padding-left: 1.5rem;
+    }
+    .gs-roadmap-desc li {
+      margin-bottom: 0.4rem;
+    }
+
+    .gs-flow-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      padding: 2rem 1rem;
+      overflow-x: auto;
+    }
+    .gs-flow-track {
+      position: absolute;
+      top: 50%;
+      left: 60px;
+      right: 60px;
+      height: 8px;
+      background: linear-gradient(90deg, #f97316, #ef4444, #3b82f6, #10b981, #84cc16);
+      transform: translateY(-50%);
+      z-index: 1;
+      border-radius: 99px;
+    }
+    .gs-flow-node {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      text-align: center;
+      min-width: 140px;
+    }
+    .gs-node-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      border: 4px solid #ffffff;
+      transition: transform 0.25s ease;
+      cursor: pointer;
+    }
+    .gs-node-circle:hover {
+      transform: scale(1.1);
+    }
+    .gs-node-1 { background: radial-gradient(circle, #f97316, #ea580c); }
+    .gs-node-2 { background: radial-gradient(circle, #f43f5e, #e11d48); }
+    .gs-node-3 { background: radial-gradient(circle, #3b82f6, #1d4ed8); }
+    .gs-node-4 { background: radial-gradient(circle, #10b981, #059669); }
+    .gs-node-5 { background: radial-gradient(circle, #84cc16, #65a30d); }
+
+    .gs-node-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gs-dark);
+    }
+
+    /* Target User Cards Grid */
+    .gs-target-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+    .gs-target-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+      transition: all 0.25s ease;
+    }
+    .gs-target-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      border-color: var(--gs-primary);
+    }
+    .gs-target-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--gs-dark);
+      margin: 0 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .gs-target-card ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .gs-target-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Tra cứu kết quả dành cho Phụ huynh */
+    .gs-lookup-section {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 28px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 12px 36px rgba(37, 99, 235, 0.08);
+      margin-bottom: 3.5rem;
+    }
+    .gs-lookup-form {
+      display: flex;
+      gap: 1rem;
+      max-width: 650px;
+      margin: 1.5rem auto;
+      flex-wrap: wrap;
+    }
+    .gs-lookup-input {
+      flex: 1;
+      min-width: 260px;
+      padding: 0.9rem 1.25rem;
+      border-radius: 14px;
+      border: 2px solid #93c5fd;
+      font-size: 1rem;
+      font-weight: 600;
+      outline: none;
+      background: #ffffff;
+      color: #0f172a;
+    }
+    .gs-lookup-input:focus {
+      border-color: var(--gs-primary);
+      box-shadow: 0 0 0 4px rgba(42, 127, 255, 0.2);
+    }
+    .gs-lookup-btn {
+      padding: 0.9rem 1.75rem;
+      background: var(--gs-primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 0 0 var(--gs-primary-shadow);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .gs-lookup-btn:hover {
+      background: var(--gs-primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 0 var(--gs-primary-shadow);
+    }
+
+    /* Kết quả tra cứu chi tiết */
+    .gs-student-report-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid #cbd5e1;
+      margin-top: 2rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Floating Contact Buttons (Zalo, Hotline, Top) */
+    .gs-floating-widget {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      z-index: 999;
+    }
+    .gs-float-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      transition: all 0.25s ease;
+      font-size: 1.4rem;
+      border: none;
+      cursor: pointer;
+    }
+    .gs-float-btn:hover {
+      transform: scale(1.1);
+    }
+    .gs-float-zalo { background: #0068ff; }
+    .gs-float-phone { background: #10b981; }
+
+    @media (max-width: 992px) {
+      .gs-hero-card {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem;
+        gap: 2rem;
+      }
+      .gs-nav-links {
+        display: none;
+      }
+      .gs-flow-container {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP GLOBAL NAVBAR CHUẨN GLOBALSPEAK -->
+  <header class="gs-navbar">
+    <div class="gs-nav-container">
+      <a href="/" class="gs-brand">
+        <img src="/static/images/globalspeak_mascot_premium.svg" alt="GlobalSpeak Logo" class="gs-brand-logo" onerror="this.src='/static/images/global_learning_logo.svg'">
+        <div class="gs-brand-text">
+          <h1>GLOBAL SPEAK THCS</h1>
+          <p>HỌC TIẾNG ANH & KIỂM TRA ĐỊNH KỲ • THẦY ĐINH VĂN THÀNH</p>
+        </div>
+      </a>
+
+      <ul class="gs-nav-links">
+        <li><a href="/" class="gs-nav-link">Trang chủ</a></li>
+        <li><a href="/giao-vien" class="gs-nav-link">Góc giáo viên</a></li>
+        <li><a href="/phu-huynh" class="gs-nav-link active">Góc phụ huynh và học sinh</a></li>
+        <li><a href="/luyen-noi" class="gs-nav-link">Gia sư AI (Nói)</a></li>
+        <li><a href="/lam-bai" class="gs-nav-link">Kho đề (TestReady)</a></li>
+        <li><a href="/tro-choi" class="gs-nav-link">Game Space</a></li>
+        <li><a href="/#leaderboard" class="gs-nav-link">Xếp hạng</a></li>
+      </ul>
+
+      <a href="/lam-bai" class="gs-btn-login">
+        <span>🚀 Vào Phòng Thi / Học</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB & DROPDOWN FILTER -->
+  <div class="gs-subbar">
+    <div class="gs-breadcrumb">
+      <a href="/">Trang chủ</a> / <span>Góc phụ huynh và học sinh</span> / <b style="color: #0f172a;" id="breadcrumbCurrent">Tổng quan</b>
+    </div>
+    <div>
+      <select class="gs-toggle-btn" onchange="switchParentTab(this.value)">
+        <option value="sectionOverview">≡ Tổng quan</option>
+        <option value="sectionCurriculum">≡ Công cụ và hệ thống bài học</option>
+        <option value="sectionLookup">≡ Tra cứu kết quả học tập</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- SECTION 1: HERO & MỤC TIÊU PHÁT TRIỂN (SCREENSHOT 2 CHUẨN 100%) -->
+  <div id="sectionOverview">
+    <section class="gs-hero-section">
+      <div class="gs-hero-card">
+        <!-- CỘT 1: TIÊU ĐỀ & 7 THẺ MỤC TIÊU PHÁT TRIỂN CHO HỌC SINH -->
+        <div class="gs-hero-content">
+          <h2 class="gs-hero-title">
+            Mục tiêu phát triển cho học sinh
+          </h2>
+          <div class="gs-pills-list">
+            <div class="gs-feature-pill">
+              <span class="gs-pill-dot"></span>
+              <span>Phát triển toàn diện 4 kỹ năng Nghe – Nói – Đọc – Viết.</span>
+            </div>
+            <div class="gs-feature-pill">
+              <span class="gs-pill-dot"></span>
+              <span>Cá nhân hóa lộ trình học theo trình độ từng học sinh.</span>
+            </div>
+            <div class="gs-feature-pill">
+              <span class="gs-pill-dot"></span>
+              <span>Luyện phát âm, giao tiếp và viết tiếng Anh tự nhiên.</span>
+            </div>
+            <div class="gs-feature-pill">
+              <span class="gs-pill-dot"></span>
+              <span>Nuôi dưỡng tư duy phản biện qua đối thoại tiếng Anh.</span>
+            </div>
+            <div class="gs-feature-pill">
+              <span class="gs-pill-dot"></span>
+              <span>Rèn phản xạ giao tiếp trong tình huống thực tế.</span>
+            </div>
+            <div class="gs-feature-pill">
+              <span class="gs-pill-dot"></span>
+              <span>Hình thành thói quen tự học chủ động, bền vững.</span>
+            </div>
+            <div class="gs-feature-pill">
+              <span class="gs-pill-dot"></span>
+              <span>Chuẩn bị năng lực giao tiếp và hội nhập toàn cầu.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CỘT 2: HÌNH ẢNH MINH HỌA LAPTOP VÀ MOBILE APP MOCKUP (CHUẨN SCREENSHOT 2) -->
+        <div class="gs-hero-image-wrap">
+          <img src="/static/images/student_parent_hero.png" alt="Mục tiêu phát triển cho học sinh - GlobalSpeak" class="gs-hero-img">
+        </div>
+      </div>
+    </section>
+
+    <!-- VÌ SAO PHỤ HUYNH NÊN CHỌN VÀ ĐẶC ĐIỂM -->
+    <section class="gs-section">
+      <div class="gs-section-header">
+        <span class="gs-section-badge">🌟 Đồng hành tin cậy</span>
+        <h2 class="gs-section-title">Vì sao phụ huynh nên chọn Global Speak THCS?</h2>
+        <p class="gs-section-desc">
+          Mang đến cho học sinh THCS hành trình học tiếng Anh hiện đại, an toàn – nơi mỗi bài học đều được cá nhân hoá và mỗi tiến bộ đều được báo cáo minh bạch về gia đình.
+        </p>
+      </div>
+
+      <div class="gs-target-grid">
+        <div class="gs-target-card">
+          <h3><span>📚</span> Bám Sát Chương Trình GDPT 2018</h3>
+          <ul>
+            <li>Học đúng trọng tâm bộ sách Global Success Lớp 6, 7, 8, 9.</li>
+            <li>Đồng bộ 105 tiết giáo án chuẩn Công văn 5512 của Bộ GD&ĐT.</li>
+            <li>Hệ thống bài học mở rộng, không lặp lại thụ động SGK.</li>
+          </ul>
+        </div>
+
+        <div class="gs-target-card">
+          <h3><span>🎙️</span> Rèn Nói Cùng Gia Sư AI Oxford</h3>
+          <ul>
+            <li>Công nghệ Web Speech API nhận diện phát âm trực tiếp từng từ, từng câu.</li>
+            <li>Chấm điểm phần trăm (%) theo phiên âm quốc tế Oxford IPA.</li>
+            <li>2 chế độ luyện nghe: Tốc độ chuẩn 1.0x và Chậm 0.8x.</li>
+          </ul>
+        </div>
+
+        <div class="gs-target-card">
+          <h3><span>📊</span> Báo Cáo Tiến Độ Tự Động</h3>
+          <ul>
+            <li>Lưu trữ điểm số mọi bài kiểm tra và thời điểm nộp bài.</li>
+            <li>Phân loại học lực Xuất sắc - Giỏi - Khá - Cần cố gắng.</li>
+            <li>Nhận xét sư phạm chi tiết của Thầy Thành gửi qua Zalo phụ huynh.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SECTION 2: CÔNG CỤ VÀ HỆ THỐNG BÀI HỌC (SCREENSHOT 3 CHUẨN 100%) -->
+  <div id="sectionCurriculum" class="gs-section">
+    <div class="gs-section-header">
+      <span class="gs-section-badge">🎯 Mô hình sư phạm hiện đại</span>
+      <h2 class="gs-section-title">Lộ trình học cá nhân hoá trên GlobalSpeak</h2>
+      <p class="gs-section-desc">
+        Hệ thống tự động điều chỉnh nội dung học tập theo đúng trình độ và tốc độ phát triển của từng học sinh.
+      </p>
+    </div>
+
+    <div class="gs-roadmap-box">
+      <div class="gs-roadmap-desc">
+        <b style="font-size: 1.1rem; color: #0f172a; display: block; margin-bottom: 0.5rem;">
+          Quy trình bồi dưỡng năng lực tiếng Anh toàn diện:
+        </b>
+        GlobalSpeak sử dụng công nghệ AI để thiết kế lộ trình học riêng cho từng học sinh, giúp mỗi em được học đúng trình độ, đúng tốc độ và phát triển tối đa năng lực tiếng Anh của mình:
+        <ul>
+          <li><b>Khởi đầu bằng bài kiểm tra đầu vào (Test):</b> Đánh giá chính xác kiến thức và kỹ năng hiện tại.</li>
+          <li><b>Tự động phân luồng học Cơ bản – Nâng cao:</b> Điểm dưới 80% được củng cố nền tảng, trên 80% được thử thách với nhánh khó nâng cao.</li>
+          <li><b>Nội dung học và bài luyện tập điều chỉnh linh hoạt:</b> Tự động thích ứng theo tiến bộ của từng học sinh.</li>
+          <li><b>AI theo dõi và phản hồi tức thì:</b> Chỉ rõ điểm mạnh, mẹo phát âm và phần kiến thức cần cải thiện.</li>
+          <li><b>Báo cáo tiến độ gửi tới phụ huynh và giáo viên:</b> Đảm bảo quá trình học tập tại nhà và trên trường nhất quán, hiệu quả.</li>
+        </ul>
+      </div>
+
+      <!-- 5-NODE INFOGRAPHIC FLOW (CHUẨN SCREENSHOT 3) -->
+      <div class="gs-flow-container">
+        <div class="gs-flow-track"></div>
+
+        <!-- Node 1 -->
+        <div class="gs-flow-node">
+          <div class="gs-node-circle gs-node-1" onclick="alert('Bước 1: Làm bài kiểm tra đầu vào (Test) để xác định năng lực!')">
+            Test
+          </div>
+          <span class="gs-node-label">1. Kiểm tra đầu vào</span>
+        </div>
+
+        <!-- Node 2 -->
+        <div class="gs-flow-node">
+          <div class="gs-node-circle gs-node-2" onclick="alert('Bước 2: Phân luồng Cơ bản (<80%) hoặc Nâng cao (>=80%)!')">
+            Phân luồng
+          </div>
+          <span class="gs-node-label">2. Phân luồng học</span>
+        </div>
+
+        <!-- Node 3 -->
+        <div class="gs-flow-node">
+          <div class="gs-node-circle gs-node-3" onclick="alert('Bước 3: Học tập & Luyện tập 4 kỹ năng Nghe - Nói - Đọc - Viết!')">
+            Học tập<br>luyện tập
+          </div>
+          <span class="gs-node-label">3. Luyện tập đa giác quan</span>
+        </div>
+
+        <!-- Node 4 -->
+        <div class="gs-flow-node">
+          <div class="gs-node-circle gs-node-4" onclick="alert('Bước 4: AI phản hồi tức thì với nhận diện giọng nói & chấm bài tự động!')">
+            AI<br>phản hồi
+          </div>
+          <span class="gs-node-label">4. AI phản hồi trực tiếp</span>
+        </div>
+
+        <!-- Node 5 -->
+        <div class="gs-flow-node">
+          <div class="gs-node-circle gs-node-5" onclick="alert('Bước 5: Báo cáo sổ điểm điện tử LMS gửi về gia đình & thầy cô!')">
+            Báo cáo
+          </div>
+          <span class="gs-node-label">5. Báo cáo & Đánh giá</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CẤU TRÚC 4 LESSONS CẤP THCS (LỚP 6 - 9) -->
+    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 2.5rem; box-shadow: 0 4px 20px rgba(15,23,42,0.04);">
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 800; color: #0f172a; margin: 0 0 1rem;">
+        Cấu trúc bài học cấp THCS (Lớp 6 – 9) chuẩn Global Success
+      </h3>
+      <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem;">
+        Mỗi khối lớp bao gồm 12 Units và 4 bài Review định kỳ (toàn cấp 64 bài). Mỗi Unit gồm 4 Lesson chuyên biệt:
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 16px; padding: 1.25rem; text-align: center;">
+          <div style="font-size: 0.8rem; font-weight: 800; color: #2563eb; margin-bottom: 0.35rem;">LESSON 1</div>
+          <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin-bottom: 0.35rem;">Vocabulary</div>
+          <div style="font-size: 0.85rem; color: #64748b;">Từ vựng & Ngữ âm chuẩn Oxford IPA</div>
+        </div>
+
+        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 16px; padding: 1.25rem; text-align: center;">
+          <div style="font-size: 0.8rem; font-weight: 800; color: #059669; margin-bottom: 0.35rem;">LESSON 2</div>
+          <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin-bottom: 0.35rem;">Grammar</div>
+          <div style="font-size: 0.85rem; color: #64748b;">Ngữ pháp & Bài tập củng cố định kỳ</div>
+        </div>
+
+        <div style="background: #fefce8; border: 1px solid #fef08a; border-radius: 16px; padding: 1.25rem; text-align: center;">
+          <div style="font-size: 0.8rem; font-weight: 800; color: #d97706; margin-bottom: 0.35rem;">LESSON 3</div>
+          <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin-bottom: 0.35rem;">Skills 1</div>
+          <div style="font-size: 0.85rem; color: #64748b;">Rèn Nói (Speaking) & Đọc hiểu (Reading)</div>
+        </div>
+
+        <div style="background: #faf5ff; border: 1px solid #f3e8ff; border-radius: 16px; padding: 1.25rem; text-align: center;">
+          <div style="font-size: 0.8rem; font-weight: 800; color: #7c3aed; margin-bottom: 0.35rem;">LESSON 4</div>
+          <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin-bottom: 0.35rem;">Skills 2</div>
+          <div style="font-size: 0.85rem; color: #64748b;">Luyện Nghe (Listening) & Viết (Writing)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: TRA CỨU KẾT QUẢ HỌC TẬP DÀNH CHO PHỤ HUYNH -->
+  <div id="sectionLookup" class="gs-section">
+    <div class="gs-lookup-section">
+      <div style="text-align: center; max-width: 680px; margin: 0 auto 1.5rem;">
+        <span class="gs-section-badge">🔍 Tra cứu trực tuyến</span>
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; color: #0f172a; margin: 0 0 0.5rem;">
+          Sổ Điểm Điện Tử & Báo Cáo Năng Lực Con Em
+        </h2>
+        <p style="color: #475569; font-size: 1rem; margin: 0;">
+          Phụ huynh chỉ cần nhập Mã học sinh (ví dụ: <code>6a_longnh</code>, <code>9a_duykh</code>) hoặc chọn Lớp để xem ngay kết quả làm bài, điểm trung bình và lời nhận xét sư phạm.
+        </p>
+      </div>
+
+      <div class="gs-lookup-form">
+        <input type="text" id="parentSearchInput" class="gs-lookup-input" placeholder="Nhập mã học sinh (vd: 6a_longnh, 9a_duykh)..." value="6a_longnh">
+        <button type="button" class="gs-lookup-btn" onclick="lookupStudentForParent()">
+          <span>🔍 Tra Cứu Ngay</span>
+        </button>
+      </div>
+
+      <!-- KẾT QUẢ TRA CỨU BÁO CÁO HỌC SINH -->
+      <div id="parentReportContainer" class="gs-student-report-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div id="studentAvatar" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #2563eb, #38bdf8); color: #fff; font-weight: 800; font-size: 1.4rem; display: flex; align-items: center; justify-content: center;">
+              NL
+            </div>
+            <div>
+              <h3 id="studentFullName" style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; color: #0f172a; margin: 0;">
+                Nguyễn Hoàng Long
+              </h3>
+              <p id="studentClassMeta" style="color: #64748b; font-size: 0.9rem; margin: 0.2rem 0 0;">
+                Mã: <code>6a_longnh</code> • Lớp 6A • GV: Thầy Đinh Văn Thành
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem;">
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 0.5rem 1rem; text-align: center;">
+              <div style="font-size: 0.75rem; color: #166534; font-weight: 700;">ĐIỂM TRUNG BÌNH</div>
+              <div id="studentAvgScore" style="font-size: 1.5rem; font-weight: 800; color: #15803d;">9.5</div>
+            </div>
+            <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 0.5rem 1rem; text-align: center;">
+              <div style="font-size: 0.75rem; color: #1e40af; font-weight: 700;">HỌC LỰC</div>
+              <div id="studentRankLabel" style="font-size: 1.15rem; font-weight: 800; color: #2563eb;">Xuất Sắc</div>
+            </div>
+          </div>
+        </div>
+
+        <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: #0f172a; margin: 0 0 1rem;">
+          📋 Lịch Sử Kiểm Tra & Bài Làm Gần Đây:
+        </h4>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem;">
+            <thead>
+              <tr style="background: #f8fafc; border-bottom: 2px solid #cbd5e1; color: #475569;">
+                <th style="padding: 0.75rem 1rem;">Tên bài kiểm tra</th>
+                <th style="padding: 0.75rem 1rem;">Thời gian</th>
+                <th style="padding: 0.75rem 1rem; text-align: center;">Điểm số</th>
+                <th style="padding: 0.75rem 1rem; text-align: center;">Trạng thái</th>
+                <th style="padding: 0.75rem 1rem;">Nhận xét giáo viên</th>
+              </tr>
+            </thead>
+            <tbody id="parentSubmissionsTableBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING ACTION BUTTONS (ZALO, HOTLINE) -->
+  <div class="gs-floating-widget">
+    <a href="https://zalo.me/0915213717" target="_blank" class="gs-float-btn gs-float-zalo" title="Chat Zalo với Thầy Thành">
+      💬
+    </a>
+    <a href="tel:0915213717" class="gs-float-btn gs-float-phone" title="Gọi Hotline: 0915.213717">
+      📞
+    </a>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="/static/js/exam_data.js"></script>
+  <script>
+    // Tab switching for Parents Corner
+    function switchParentTab(sectionId) {
+      document.getElementById('sectionOverview').style.display = (sectionId === 'sectionOverview') ? 'block' : 'none';
+      document.getElementById('sectionCurriculum').style.display = (sectionId === 'sectionCurriculum') ? 'block' : 'none';
+      document.getElementById('sectionLookup').style.display = (sectionId === 'sectionLookup') ? 'block' : 'none';
+
+      const labelMap = {
+        'sectionOverview': 'Tổng quan',
+        'sectionCurriculum': 'Công cụ và hệ thống bài học',
+        'sectionLookup': 'Tra cứu kết quả học tập'
+      };
+      document.getElementById('breadcrumbCurrent').textContent = labelMap[sectionId] || 'Tổng quan';
+
+      if (sectionId === 'sectionLookup') {
+        lookupStudentForParent();
+      }
+    }
+
+    // Lookup student performance
+    function lookupStudentForParent() {
+      const code = (document.getElementById('parentSearchInput').value || '').trim().toLowerCase();
+      const container = document.getElementById('parentReportContainer');
+      const students = window.GLOBAL_STUDENTS || [];
+      const submissions = window.GLOBAL_SUBMISSIONS || [];
+
+      const student = students.find(s => (s.id && s.id.toLowerCase() === code) || (s.name && s.name.toLowerCase().includes(code)));
+      if (!student) {
+        alert("Không tìm thấy học sinh với mã '" + code + "'. Vui lòng kiểm tra lại (ví dụ thử: 6a_longnh, 9a_duykh, 7a_nam)! ");
+        return;
+      }
+
+      container.style.display = 'block';
+      document.getElementById('studentFullName').textContent = student.name;
+      document.getElementById('studentClassMeta').innerHTML = `Mã: <code>${student.id}</code> • Lớp ${student.className || '6A'} • Trường THCS Đồng Yên`;
+      
+      const initials = student.name.split(' ').map(w => w[0]).slice(-2).join('').toUpperCase();
+      document.getElementById('studentAvatar').textContent = initials || 'HS';
+
+      const stuSubs = submissions.filter(sub => sub.studentId === student.id || sub.studentName === student.name);
+      const tbody = document.getElementById('parentSubmissionsTableBody');
+
+      if (stuSubs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 1.5rem; color: #64748b;">Học sinh chưa có bài kiểm tra nào được ghi nhận trên hệ thống.</td></tr>`;
+        document.getElementById('studentAvgScore').textContent = 'Chưa có';
+        document.getElementById('studentRankLabel').textContent = 'Đang theo dõi';
+      } else {
+        let total = 0;
+        tbody.innerHTML = stuSubs.map(s => {
+          total += Number(s.score || 0);
+          const isPass = Number(s.score) >= 5.0;
+          return `
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 0.75rem 1rem; font-weight: 700; color: #0f172a;">${s.examTitle || 'Kiểm tra tiếng Anh'}</td>
+              <td style="padding: 0.75rem 1rem; color: #64748b;">${s.submittedAt || 'Vừa xong'}</td>
+              <td style="padding: 0.75rem 1rem; text-align: center; font-weight: 800; font-size: 1.1rem; color: ${isPass ? '#16a34a' : '#dc2626'};">
+                ${Number(s.score).toFixed(1)}
+              </td>
+              <td style="padding: 0.75rem 1rem; text-align: center;">
+                <span style="display: inline-block; padding: 0.25rem 0.65rem; border-radius: 99px; font-weight: 700; font-size: 0.78rem; background: ${isPass ? '#dcfce7' : '#fee2e2'}; color: ${isPass ? '#15803d' : '#b91c1c'};">
+                  ${isPass ? '✓ Đạt yêu cầu' : '⚠ Cần cố gắng'}
+                </span>
+              </td>
+              <td style="padding: 0.75rem 1rem; color: #334155; font-style: italic;">
+                ${Number(s.score) >= 8.5 ? 'Hoàn thành xuất sắc, nắm rất chắc từ vựng và ngữ pháp!' : (isPass ? 'Nắm được trọng tâm, cần rèn thêm kỹ năng Nghe và Nói.' : 'Cần ôn lại cấu trúc câu và luyện phát âm thêm với Gia sư AI.')}
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        const avg = total / stuSubs.length;
+        document.getElementById('studentAvgScore').textContent = avg.toFixed(1);
+        document.getElementById('studentRankLabel').textContent = (avg >= 9 ? 'Xuất Sắc' : (avg >= 8 ? 'Giỏi' : (avg >= 6.5 ? 'Khá' : 'Trung Bình')));
+      }
+    }
+
+    // Auto initialize with default student
+    window.addEventListener('DOMContentLoaded', () => {
+      lookupStudentForParent();
+    });
+  </script>
+</body>
+</html>
