@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Làm Bài Kiểm Tra Tiếng Anh Trực Tuyến - THCS</title>
+  <link rel="icon" href="/assets/app_logo.ico">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-wrapper">
+        <img src="/static/images/global_learning_logo.svg" alt="Global Learning Logo" class="mascot-icon">
+        <div class="brand-info">
+          <h1>GLOBAL LEARNING THCS</h1>
+          <p><span>✍️</span> PHÒNG THI TRỰC TUYẾN • THẦY ĐINH VĂN THÀNH</p>
+        </div>
+      </a>
+
+      <!-- GAMIFIED STATS -->
+      <div class="student-stats-wrapper">
+        <div class="stat-pill stat-pill-streak">
+          <span>🔥</span>
+          <span id="userStreakDays">3 Ngày 🔥</span>
+        </div>
+        <div class="stat-pill stat-pill-xp">
+          <span>⚡</span>
+          <span id="userTotalXp">120 XP</span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <a href="/luyen-noi" class="btn btn-secondary btn-sm">🎙️ Luyện Nói</a>
+        <a href="/" class="btn btn-primary btn-sm">🏠 Trang Chủ</a>
+        <a href="https://zalo.me/0915213717" target="_blank" class="nav-badge-hotline">
+          <span>Zalo: 0915.213717</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN QUIZ AREA -->
+  <main class="main-layout" style="max-width: 960px;">
+    
+    <div id="examContentArea">
+      <!-- HEADER BAR WITH TIMER -->
+      <div class="quiz-header-bar">
+        <div>
+          <span class="tag-grade" id="examGradeBadge" style="margin-bottom: 0.35rem; display: inline-block;">LỚP 6</span>
+          <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #fff; line-height: 1.2;" id="examTitleDisplay">
+            Đang tải thông tin đề thi...
+          </h2>
+          <span style="font-size: 0.82rem; color: var(--text-dim);" id="examQuestionCount">10 phần bài tập</span>
+        </div>
+
+        <div class="timer-box">
+          <span>⏱️</span>
+          <span id="timerDisplay">45:00</span>
+        </div>
+      </div>
+
+      <!-- QUICK STUDENT LOGIN CARD -->
+      <div style="background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.35); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <span style="font-size: 1.4rem;">🔑</span>
+          <div>
+            <div style="font-size: 0.92rem; font-weight: 700; color: #fff;" id="studentLoginStatusTitle">Em đã có tài khoản do Thầy cấp?</div>
+            <div style="font-size: 0.8rem; color: #a5b4fc;" id="studentLoginStatusSub">Đăng nhập để tự động điền họ tên, ghi nhận vào sổ điểm điện tử của lớp</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;" id="loginButtonsArea">
+          <input type="text" class="input-control" id="loginUserQuick" placeholder="Tên đăng nhập" style="width: 140px; padding: 0.4rem 0.6rem; font-size: 0.85rem;">
+          <input type="password" class="input-control" id="loginPassQuick" placeholder="Mật khẩu (123456)" style="width: 130px; padding: 0.4rem 0.6rem; font-size: 0.85rem;">
+          <button type="button" class="btn btn-primary btn-sm" onclick="handleStudentQuickLogin()">Đăng Nhập</button>
+        </div>
+      </div>
+
+      <!-- STUDENT METADATA INPUTS -->
+      <div class="student-meta-inputs">
+        <div class="input-group">
+          <label>Họ và tên học sinh (* bắt buộc):</label>
+          <input type="text" class="input-control" id="studentNameInput" placeholder="Ví dụ: Nguyễn Văn An" required>
+        </div>
+        <div class="input-group">
+          <label>Lớp học:</label>
+          <input type="text" class="input-control" id="studentClassInput" placeholder="Ví dụ: 6A, 7B, 8A1...">
+        </div>
+        <div class="input-group">
+          <label>Trường THCS:</label>
+          <input type="text" class="input-control" id="studentSchoolInput" value="THCS Đồng Yên" placeholder="Tên trường...">
+        </div>
+      </div>
+
+      <!-- QUESTIONS LIST CONTAINER -->
+      <div id="questionsList">
+        <!-- Rendered by student.js -->
+      </div>
+
+      <!-- SUBMIT BUTTON -->
+      <div style="text-align: center; margin: 3rem 0;">
+        <button type="button" class="btn btn-primary btn-lg" id="btnSubmitExam" style="min-width: 280px; font-size: 1.2rem; padding: 1.1rem 2.5rem; box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);">
+          🚀 NỘP BÀI KIỂM TRA
+        </button>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.75rem;">
+          Kiểm tra kỹ các câu trả lời trước khi nộp bài. Chúc em đạt kết quả thật cao! ✨
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SCORE & RESULT MODAL -->
+  <div class="modal-overlay" id="scoreResultModal">
+    <div class="modal-card">
+      <div class="score-badge-circle">
+        <span class="score-num" id="resScoreNum">10.0</span>
+        <span class="score-max">Thang 10 điểm</span>
+      </div>
+
+      <div style="display: inline-block; padding: 0.35rem 1rem; border-radius: var(--radius-full); background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;" id="resBadge">
+        XUẤT SẮC 🏆
+      </div>
+
+      <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;" id="resStudentName">
+        Nguyễn Văn An (Lớp 6A)
+      </h3>
+
+      <p style="font-size: 0.95rem; color: #38bdf8; font-weight: 600; margin-bottom: 1rem;">
+        Đúng: <span id="resCorrectCount" style="color: #fff; font-weight: 800;">10 / 10 câu</span>
+      </p>
+
+      <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.25rem; font-size: 0.92rem; color: #e2e8f0; line-height: 1.6; margin-bottom: 1.5rem; text-align: left;">
+        <b style="color: #a5b4fc;">💬 Lời nhận xét của Thầy Đinh Văn Thành:</b><br>
+        <span id="resFeedback">Em làm bài rất xuất sắc! Hãy tiếp tục duy trì phong độ nhé!</span>
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center;">
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('scoreResultModal').classList.remove('active'); window.scrollTo({top: 0, behavior: 'smooth'});">
+          🔍 Xem Lại Lời Giải Chi Tiết
+        </button>
+        <a href="/" class="btn btn-secondary">
+          🏠 Trang Chủ
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p><b>HỆ THỐNG HỌC & KIỂM TRA TIẾNG ANH THCS</b> • Thầy giáo Đinh Văn Thành (0915.213717)</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="/static/js/audio_effects.js"></script>
+  <script src="/static/js/confetti.js"></script>
+  <script src="/static/js/student.js"></script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Học & Kiểm Tra Tiếng Anh THCS - Thầy Đinh Văn Thành</title>
+  <link rel="icon" href="/assets/app_logo.ico">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand-wrapper">
+        <img src="/static/images/global_learning_logo.svg" alt="Global Learning Logo" class="mascot-icon">
+        <div class="brand-info">
+          <h1>GLOBAL LEARNING THCS</h1>
+          <p><span>🎙️</span> LUYỆN NÓI & KIỂM TRA TIẾNG ANH • THẦY ĐINH VĂN THÀNH</p>
+        </div>
+      </a>
+
+      <!-- GAMIFIED STATS (STREAK & XP) -->
+      <div class="student-stats-wrapper">
+        <div class="stat-pill stat-pill-streak" title="Chuỗi ngày học liên tục">
+          <span>🔥</span>
+          <span id="userStreakDays">3 Ngày 🔥</span>
+        </div>
+        <div class="stat-pill stat-pill-xp" title="Điểm kinh nghiệm tích lũy">
+          <span>⚡</span>
+          <span id="userTotalXp">120 XP</span>
+        </div>
+      </div>
+
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/" class="active">🏠 Trang Chủ</a></li>
+        <li class="nav-item"><a href="/luyen-noi">🎙️ Luyện Nói AI</a></li>
+        <li class="nav-item"><a href="/the-tu-vung">🗂️ Thẻ Từ 3D</a></li>
+        <li class="nav-item"><a href="/lam-bai">✍️ Làm Bài Thi</a></li>
+        <li class="nav-item"><a href="/tro-choi">🎮 Trò Chơi</a></li>
+        <li class="nav-item"><a href="/giao-vien">👨‍🏫 Cổng Giáo Viên</a></li>
+      </ul>
+
+      <a href="https://zalo.me/0915213717" target="_blank" class="nav-badge-hotline">
+        <span>💬 Zalo: 0915.213717</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <main class="main-layout">
+
+    <!-- HERO BANNER -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <div class="hero-pill">
+          <span>🎙️ CÔNG NGHỆ LUYỆN NÓI AI • GLOBAL SUCCESS THCS LỚP 6, 7, 8, 9</span>
+        </div>
+        <h1 class="hero-title">
+          Nền Tảng Luyện Nói & Kiểm Tra <br>
+          <span class="gradient-text">Tiếng Anh THCS Toàn Diện</span>
+        </h1>
+        <p class="hero-subtitle">
+          Tích hợp công nghệ nhận diện giọng nói AI thông minh (Global Learning) chấm điểm phát âm trực tiếp với Micro, thẻ từ vựng 3D đa giác quan, cùng hệ thống ra đề 9 dạng chuẩn GDPT, giao bài qua Zalo mã QR và sổ điểm điện tử chuyên nghiệp!
+        </p>
+        <div class="hero-actions">
+          <a href="/luyen-noi" class="btn btn-primary btn-lg">
+            <span>🎙️</span> Phòng Luyện Nói AI
+          </a>
+          <a href="/the-tu-vung" class="btn btn-cyan btn-lg">
+            <span>🗂️</span> Thẻ Từ Vựng 3D
+          </a>
+          <a href="/lam-bai" class="btn btn-secondary btn-lg">
+            <span>✍️</span> Làm Bài Thi Chuẩn
+          </a>
+          <a href="/giao-vien" class="btn btn-emerald btn-lg">
+            <span>👨‍🏫</span> Cổng Giáo Viên
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: PHÒNG LUYỆN NÓI AI - GLOBAL LEARNING -->
+    <section style="margin-bottom: 4rem;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill cyan">🎙️</span>
+          Global Learning AI - Phòng Luyện Nói & Chấm Điểm Phát Âm
+        </h2>
+        <a href="/luyen-noi" class="btn btn-secondary btn-sm">Mở Phòng Luyện Nói Đầy Đủ ➔</a>
+      </div>
+
+      <div style="background: rgba(15, 23, 42, 0.75); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-lg); backdrop-filter: blur(16px);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <span class="speak-header-badge">⭐ THỬ THÁCH PHÁT ÂM TIẾNG ANH BẢN XỨ</span>
+            <h3 style="font-size: 1.25rem; color: #fff; margin-top: 0.35rem;">Bấm Micro và nói câu bên dưới để AI chấm điểm độ chính xác (%)</h3>
+          </div>
+          <div class="grade-tabs" style="margin: 0;">
+            <button class="grade-btn active" onclick="loadHomeSpeakingPreview('6', this)">Lớp 6</button>
+            <button class="grade-btn" onclick="loadHomeSpeakingPreview('7', this)">Lớp 7</button>
+            <button class="grade-btn" onclick="loadHomeSpeakingPreview('8', this)">Lớp 8</button>
+            <button class="grade-btn" onclick="loadHomeSpeakingPreview('9', this)">Lớp 9</button>
+          </div>
+        </div>
+
+        <div id="homeSpeakingPreviewBox"></div>
+      </div>
+    </section>
+
+    <!-- SECTION: 3D FLASHCARDS PREVIEW -->
+    <section style="margin-bottom: 4rem;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill emerald">🗂️</span>
+          Thẻ Từ Vựng 3D Đa Giác Quan (Lật Thẻ & Nghe Phát Âm)
+        </h2>
+        <a href="/the-tu-vung" class="btn btn-secondary btn-sm">Mở Kho Thẻ Từ Vựng 3D ➔</a>
+      </div>
+
+      <div class="flashcards-container" id="homeFlashcardsPreview"></div>
+    </section>
+
+    <!-- SECTION: KHÁM PHÁ CÁC KHỐI LỚP 6 - 9 -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill purple">📚</span>
+          Kho Bài Tập & Đề Thi Chuẩn Theo Khối Lớp
+        </h2>
+        <div class="grade-tabs">
+          <button class="grade-btn active" onclick="filterGrade('all', this)">Tất cả</button>
+          <button class="grade-btn" onclick="filterGrade('6', this)">Lớp 6</button>
+          <button class="grade-btn" onclick="filterGrade('7', this)">Lớp 7</button>
+          <button class="grade-btn" onclick="filterGrade('8', this)">Lớp 8</button>
+          <button class="grade-btn" onclick="filterGrade('9', this)">Lớp 9</button>
+        </div>
+      </div>
+
+      <!-- EXAM CARDS GRID -->
+      <div class="exam-grid" id="homeExamsGrid">
+        <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
+          ⏳ Đang kết nối ngân hàng đề thi THCS...
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: TÍNH NĂNG NỔI BẬT DÀNH CHO GV & HS -->
+    <section style="margin-top: 4rem;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon-pill cyan">⚡</span>
+          Giải Pháp Thông Minh Cho Giáo Viên & Học Sinh
+        </h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <div class="exam-card">
+          <div style="font-size: 2.2rem; margin-bottom: 0.75rem;">📋</div>
+          <h3 class="card-title">Ra Đề Các Loại Đa Dạng</h3>
+          <p class="card-desc">Tự do lựa chọn hoặc kết hợp: Trắc nghiệm 4 lựa chọn, Ngữ âm -ed /s/es, Cloze test điền từ, Ghép cặp, Xếp câu, Đọc hiểu và bài tập Nghe phát âm native.</p>
+          <a href="/giao-vien" class="btn btn-secondary btn-sm" style="margin-top: 1rem;">Mở Trình Soạn Đề ➔</a>
+        </div>
+
+        <div class="exam-card">
+          <div style="font-size: 2.2rem; margin-bottom: 0.75rem;">🔗</div>
+          <h3 class="card-title">Link Giao Bài & Mã QR</h3>
+          <p class="card-desc">Tự động sinh liên kết trực tuyến chia sẻ qua Zalo nhóm lớp kèm mã QR tiện lợi. Học sinh làm bài trực tiếp trên điện thoại, máy tính bảng mà không cần cài app.</p>
+          <a href="/giao-vien?view=share" class="btn btn-secondary btn-sm" style="margin-top: 1rem;">Xem Link Giao Bài ➔</a>
+        </div>
+
+        <div class="exam-card">
+          <div style="font-size: 2.2rem; margin-bottom: 0.75rem;">📊</div>
+          <h3 class="card-title">Link Nhận Bài & Bảng Điểm Live</h3>
+          <p class="card-desc">Học sinh nộp bài là điểm số và chi tiết câu làm đúng/sai xuất hiện ngay tức thì. Hỗ trợ phân loại học lực và xuất file bảng điểm Excel (.xlsx) chuẩn chỉnh.</p>
+          <a href="/giao-vien?view=submissions" class="btn btn-secondary btn-sm" style="margin-top: 1rem;">Mở Bảng Nhận Bài ➔</a>
+        </div>
+
+        <div class="exam-card">
+          <div style="font-size: 2.2rem; margin-bottom: 0.75rem;">🎮</div>
+          <h3 class="card-title">Đấu Trường Trò Chơi Thú Vị</h3>
+          <p class="card-desc">Vòng quay từ vựng may mắn, Ai là triệu phú, Đua ghép cặp siêu tốc và Xếp câu giải đố với âm thanh sinh động, kích thích đam mê học tập của học sinh cấp 2.</p>
+          <a href="/tro-choi" class="btn btn-secondary btn-sm" style="margin-top: 1rem;">Vào Chơi Game ➔</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SHARE LINK MODAL -->
+  <div class="modal-overlay" id="shareLinkModal">
+    <div class="modal-card">
+      <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">
+        🔗 Link Giao Bài & Mã QR Cho Học Sinh
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Mã bài thi: <b id="modalExamIdDisplay" style="color: #38bdf8;">ENG6_GK1</b>
+      </p>
+
+      <div class="qr-preview-box">
+        <canvas id="qrCanvas" width="220" height="220"></canvas>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.85rem; text-align: left; margin-bottom: 1.5rem;">
+        <div class="input-group">
+          <label>Link làm bài cho học sinh (Dùng cho điện thoại/laptop):</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" class="input-control" id="shareLanUrl" readonly style="flex-grow: 1;">
+            <button class="btn btn-cyan btn-sm" onclick="copyToClipboard('shareLanUrl', 'Đã copy link học sinh!')">Copy</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Tin nhắn mẫu gửi Zalo nhóm lớp:</label>
+          <textarea class="input-control" id="shareZaloText" rows="3" readonly style="resize: none;"></textarea>
+          <button class="btn btn-emerald btn-sm" style="margin-top: 0.4rem;" onclick="copyToClipboard('shareZaloText', 'Đã copy tin nhắn Zalo gửi học sinh!')">
+            📋 Sao Chép Tin Nhắn Zalo
+          </button>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-secondary" onclick="document.getElementById('shareLinkModal').classList.remove('active')">
+        Đóng Cửa Sổ
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p><b>HỆ THỐNG HỌC & KIỂM TRA TIẾNG ANH THCS (GLOBAL SUCCESS)</b></p>
+    <p style="margin-top: 0.35rem;">Bản quyền tác giả: <b>Thầy giáo Đinh Văn Thành</b> - Hotline / Zalo: <a href="https://zalo.me/0915213717">0915.213717</a></p>
+    <p style="margin-top: 0.2rem;">Đơn vị: Trường THCS Đồng Yên • Hỗ trợ toàn bộ chương trình Tiếng Anh THCS Lớp 6 - 7 - 8 - 9</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="/static/js/audio_effects.js"></script>
+  <script src="/static/js/qr_generator.js"></script>
+  <script src="/static/js/confetti.js"></script>
+  <script src="/static/js/speaking_data.js"></script>
+  <script src="/static/js/speaking_studio.js"></script>
+  <script src="/static/js/exam_data.js"></script>
+  <script>
+    let globalExams = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Tải xem trước Luyện nói AI và Thẻ từ vựng 3D
+      loadHomeSpeakingPreview('6');
+      loadHomeFlashcardsPreview('6');
+
+      // 2. Tải danh sách đề thi (Hỗ trợ cả API và Vercel Client Fallback)
+      try {
+        const res = await fetch('/api/exams');
+        if (!res.ok) throw new Error('API not responding');
+        globalExams = await res.json();
+      } catch (err) {
+        if (window.GLOBAL_EXAMS_DB && window.GLOBAL_EXAMS_DB.length > 0) {
+          globalExams = window.GLOBAL_EXAMS_DB;
+        } else {
+          document.getElementById('homeExamsGrid').innerHTML = `<div style="color: #ef4444;">Không thể kết nối đến server.</div>`;
+          return;
+        }
+      }
+      renderHomeExams(globalExams);
+    });
+
+    function loadHomeSpeakingPreview(grade, btn) {
+      if (btn) {
+        btn.parentElement.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      const box = document.getElementById('homeSpeakingPreviewBox');
+      if (!box || !window.SPEAKING_TOPICS) return;
+
+      const topics = window.SPEAKING_TOPICS[grade] || [];
+      if (topics.length === 0) return;
+
+      const firstTopic = topics[0];
+      const sentence = firstTopic.sentences[0];
+
+      box.innerHTML = `
+        <div class="speak-card" id="speak_card_${sentence.id}" style="margin: 0; background: rgba(30, 41, 59, 0.7);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <div class="speak-header-badge">${firstTopic.icon} ${firstTopic.unit}</div>
+            <span style="font-size: 0.8rem; color: #a5b4fc; font-weight: 700;">Lớp ${grade} • Tiếng Anh Giao Tiếp</span>
+          </div>
+          <div class="speak-sentence-text" style="font-size: 1.5rem; color: #fff;">"${sentence.text}"</div>
+          <div class="speak-ipa-text" style="font-size: 1.05rem;">IPA: ${sentence.ipa}</div>
+          <div class="speak-meaning-text" style="margin-bottom: 1.25rem;">💡 Dịch nghĩa: <i>${sentence.meaning}</i></div>
+
+          <div class="speak-actions-bar">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="speakNativeModel('${sentence.text.replace(/'/g, "\\'")}', 1.0)">
+              🔊 Nghe Bản Ngữ (1.0x)
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="speakNativeModel('${sentence.text.replace(/'/g, "\\'")}', 0.8)">
+              🐢 Nghe Chậm (0.8x)
+            </button>
+            <button type="button" class="btn-mic-record" onclick="startSpeakingChallenge('${sentence.id}', '${sentence.text.replace(/'/g, "\\'")}')">
+              🎙️ Bấm Để Luyện Nói
+            </button>
+            <a href="/luyen-noi" class="btn btn-cyan btn-sm" style="margin-left: auto;">
+              🚀 Khám phá thêm chủ đề ➔
+            </a>
+          </div>
+
+          <div id="result_box_${sentence.id}" style="display: none;"></div>
+        </div>
+      `;
+    }
+
+    function loadHomeFlashcardsPreview(grade) {
+      const container = document.getElementById('homeFlashcardsPreview');
+      if (!container || !window.FLASHCARDS_DATA) return;
+
+      const words = (window.FLASHCARDS_DATA[grade] || []).slice(0, 3);
+      let html = '';
+      words.forEach(item => {
+        html += `
+          <div class="flashcard-3d" onclick="toggleCardFlip(this)">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">
+                <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 800; margin-bottom: 0.4rem;">
+                  ${item.pos ? `[${item.pos}]` : ''} • LỚP ${grade}
+                </span>
+                <h3 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 0.4rem;">
+                  ${item.word}
+                </h3>
+                <div style="font-family: monospace; color: #a5b4fc; font-size: 1.05rem; margin-bottom: 1rem;">
+                  ${item.ipa}
+                </div>
+                <div onclick="event.stopPropagation();">
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="speakNativeModel('${item.word}', 1.0)">
+                    🔊 Nghe Phát Âm
+                  </button>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.85rem;">
+                  👆 Chạm để lật xem nghĩa
+                </div>
+              </div>
+              <div class="flashcard-back">
+                <div style="font-size: 0.8rem; color: #34d399; font-weight: 800; margin-bottom: 0.4rem;">
+                  ✅ Ý NGHĨA TIẾNG VIỆT
+                </div>
+                <h4 style="font-size: 1.25rem; color: #fff; font-weight: 700; margin-bottom: 0.6rem;">
+                  ${item.meaning}
+                </h4>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.6rem 0.8rem; font-size: 0.85rem; color: #cbd5e1; line-height: 1.4; text-align: left;">
+                  <b style="color: #38bdf8;">Ví dụ:</b> "${item.example}"
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.6rem;">
+                  🔄 Bấm để lật lại
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function toggleCardFlip(el) {
+      if (window.sounds) sounds.playClick();
+      el.classList.toggle('flipped');
+    }
+
+    function renderHomeExams(exams) {
+      const grid = document.getElementById('homeExamsGrid');
+      if (!grid) return;
+
+      if (exams.length === 0) {
+        grid.innerHTML = '<div style="color: var(--text-muted); padding: 2rem;">Chưa có bộ đề nào trong hệ thống.</div>';
+        return;
+      }
+
+      let html = '';
+      exams.forEach(ex => {
+        html += `
+          <div class="exam-card" data-grade="${ex.grade}">
+            <div>
+              <div class="card-top">
+                <span class="tag-grade">LỚP ${ex.grade}</span>
+                <span class="tag-duration">⏱️ ${ex.duration_minutes} phút</span>
+              </div>
+              <h3 class="card-title">${ex.title}</h3>
+              <p class="card-desc">${ex.description || 'Bài tập rèn luyện năng lực tiếng Anh THCS'}</p>
+            </div>
+            <div>
+              <div class="card-meta">
+                <span>📝 ${ex.question_count} phần bài</span>
+                <span>👨‍🏫 ${ex.created_by || 'Thầy Thành'}</span>
+              </div>
+              <div class="card-actions">
+                <a href="/lam-bai?id=${encodeURIComponent(ex.id)}" class="btn btn-primary btn-sm">
+                  🚀 Làm bài
+                </a>
+                <button type="button" class="btn btn-cyan btn-sm" onclick="openShareModal('${ex.id}')">
+                  🔗 Link giao
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      grid.innerHTML = html;
+    }
+
+    function filterGrade(grade, btn) {
+      document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (grade === 'all') {
+        renderHomeExams(globalExams);
+      } else {
+        const filtered = globalExams.filter(e => String(e.grade) === String(grade));
+        renderHomeExams(filtered);
+      }
+    }
+
+    async function openShareModal(examId) {
+      sounds.playClick();
+      let shareUrl = `${window.location.origin}/lam-bai?id=${encodeURIComponent(examId)}`;
+      let zaloText = `📢 [THÔNG BÁO TỪ THẦY ĐINH VĂN THÀNH - GLOBAL LEARNING THCS]\nKính gửi Quý phụ huynh và các em học sinh, Thầy gửi bài kiểm tra Tiếng Anh trực tuyến (Mã đề: ${examId}).\n👉 Link làm bài trực tiếp trên điện thoại/máy tính: ${shareUrl}\nChúc các em làm bài đạt kết quả thật cao! ✨`;
+
+      try {
+        const res = await fetch(`/api/assignment-link/${encodeURIComponent(examId)}`);
+        if (res.ok) {
+          const data = await res.json();
+          shareUrl = data.student.lan_url || shareUrl;
+          zaloText = data.student.zalo_message || zaloText;
+        }
+      } catch (err) {}
+
+      document.getElementById('modalExamIdDisplay').innerText = examId;
+      document.getElementById('shareLanUrl').value = shareUrl;
+      document.getElementById('shareZaloText').value = zaloText;
+
+      const canvas = document.getElementById('qrCanvas');
+      if (canvas && window.QRCodeLib) {
+        QRCodeLib.render(canvas, shareUrl, 220);
+      }
+
+      document.getElementById('shareLinkModal').classList.add('active');
+    }
+
+
+    function copyToClipboard(id, msg) {
+      sounds.playClick();
+      const el = document.getElementById(id);
+      if (el) {
+        el.select();
+        navigator.clipboard.writeText(el.value).then(() => alert('✅ ' + msg)).catch(() => {
+          document.execCommand('copy');
+          alert('✅ ' + msg);
+        });
+      }
+    }
+  </script>
+</body>
+</html>

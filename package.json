@@ -1,0 +1,9 @@
+{
+  "name": "global-speak-thcs",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Global Learning THCS - Luyen Noi & Kiem Tra Tieng Anh THCS Global Success 6 - 9",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r *.html static assets dist/ 2>/dev/null || true"
+  }
+}
